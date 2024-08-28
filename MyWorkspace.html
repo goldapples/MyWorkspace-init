@@ -1,0 +1,5059 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Workspace</title>
+    <style type="text/css">
+        .turbo-progress-bar {
+            position: fixed;
+            display: block;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: #0076ff;
+            z-index: 9999;
+            transition:
+                width 300ms ease-out,
+                opacity 150ms 150ms ease-in;
+            transform: translate3d(0, 0, 0);
+        }
+    </style>
+    <style id="st_globalStyles">
+        /* MEDIA QUERIES */
+        .anima-desktop-only {
+            @media (max-width: 768px) {
+                display: none !important;
+            }
+        }
+
+        /* SCROLLBAR */
+
+        [dark-scroll]::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        [dark-scroll]::-webkit-scrollbar-track-piece {
+            background-color: #2b2b2b;
+            border: 1px solid #1d1d1d;
+        }
+
+        [dark-scroll]::-webkit-scrollbar-thumb {
+            height: 10px;
+            background-color: #4d4d4d;
+        }
+
+        [dark-scroll]::-webkit-scrollbar-thumb:hover {
+            background-color: #5a5a5a;
+        }
+
+        /* LOAD PROGRESS */
+
+        .turbolinks-progress-bar {
+            height: 3px;
+            background-color: #ff6250;
+        }
+
+        /* GROUPING */
+
+        [data-id].ui-selecting {
+            box-shadow: inset 0 0 0 1px #4285f4 !important;
+        }
+
+        [data-id].ui-selected {
+            box-shadow: inset 0 0 0 1px #4285f4 !important;
+        }
+
+        /* CURSOR */
+
+        body[mode='comments'] * {
+            cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCAzMCAzMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik00LjkxNjQ4IDIzLjQxMDlDNS40OTE1MyAyMi45ODg3IDUuOTMxNzkgMjIuMzkzNSA2LjIzMjggMjEuNjQwN0M0Ljc5MDY5IDE5LjczODMgNCAxNy4zOTMzIDQgMTQuOTk3NUM0IDguOTM0MSA4LjkzMjgyIDQgMTUuMDAyMiA0QzIxLjA3MTcgNCAyNiA4LjkzOTE5IDI2IDE1LjAwMjVDMjYgMjEuMDY1OSAyMS4wNjcyIDI2IDE0Ljk5NzggMjZDMTIuOTg5NiAyNiAxMS4wMzUzIDI1LjQ1NTcgOS4zMjM2NyAyNC40MjMxQzguNDI5NjUgMjQuOTU3MiA3LjQxNDM0IDI1LjIyNjggNi4zMDAxOCAyNS4yMjY4QzUuOTU0MjYgMjUuMjI2OCA1LjU5OTM1IDI1LjIwMTQgNS4yNTM0MiAyNS4xNDU0QzQuOTAzIDI1LjA4OTUgNC42Mjg5NiAyNC44MDQ2IDQuNTUyNTggMjQuNDE4QzQuNDc2MjEgMjQuMDI2NCA0LjYxOTk3IDIzLjYyOTYgNC45MTY0OCAyMy40MTA5WiIgZmlsbD0iI0ZGNjI1MCIvPgo8L3N2Zz4K') 0 24,
+                auto !important;
+        }
+
+        body[mode='code'] [data-id]:not(.hidden) {
+            cursor: default;
+        }
+
+        /* default node state */
+
+        body[mode='code'] [data-id]:not(.hidden),
+        body[mode='comments'] [data-id]:not(.hidden) {
+            pointer-events: all;
+        }
+
+        /* is_image */
+
+        body[mode='code'] [data-id].is_image [data-id],
+        body[mode='comments'] [data-id].is_image [data-id] {
+            pointer-events: none !important;
+        }
+
+        /* without a data-id or ignored */
+
+        [data-id].ignore,
+        body[mode='code'] *:not([data-id]) {
+            pointer-events: none !important;
+        }
+
+        /* disable transforms for ignored elements */
+
+
+        body[mode='code'] [data-id]:hover {
+            transform: none !important;
+        }
+
+        /* ANIMA BUTTONS */
+        .an-button {
+            position: relative;
+            height: 28px;
+            padding: 0 20px;
+            font-size: 14px;
+            border-radius: 4px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            vertical-align: middle;
+            white-space: nowrap;
+            transition-property: all;
+            transition-duration: 100ms;
+            appearance: none;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s ease;
+            border-width: 0;
+        }
+
+        .an-button>div {
+            width: 100%;
+        }
+
+        .an-button.primary {
+            background: #ff6250;
+            color: #ffffff;
+        }
+
+        .an-button.primary:hover:not(:disabled) {
+            background: #e2412e;
+        }
+
+        .an-button.secondary {
+            background: transparent;
+            border: 1px solid #ff6250;
+            color: #ff6250;
+        }
+
+        .an-button.secondary:hover:not(:disabled) {
+            color: #ffffff;
+            background: #ff6250;
+        }
+
+        .an-button.rounded {
+            border-radius: 100px;
+        }
+
+        .an-button:disabled {
+            opacity: 0.5;
+        }
+
+        .an-button:disabled {
+            cursor: default;
+        }
+
+        .an-button:active,
+        .an-button:focus {
+            outline: none;
+        }
+    </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=1512, maximum-scale=1.0">
+    <link rel="shortcut icon" type="image/png" href="https://animaproject.s3.amazonaws.com/home/favicon.png">
+    <meta name="og:type" content="website">
+    <meta name="twitter:card" content="photo">
+    <script id="anima-load-script" src="load.js"></script>
+    <script id="anima-hotspots-script" src="hotspots.js"></script>
+    <style id="hotspots-styles">
+        .hotspot {
+            position: absolute;
+            border: 1px solid #2a9fd8;
+            background: rgba(0, 173, 255, 0.54);
+            opacity: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+    </style>
+    <script id="s_turbo" src="https://animaapp.s3.amazonaws.com/static/turbo.es2017-umd.js"></script>
+    <script id="anima-overrides-script" src="overrides.js"></script>
+    <script src="https://animaapp.s3.amazonaws.com/js/timeline.js"></script>
+    <style>
+        @import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+
+        @import url("https://fonts.googleapis.com/css?family=Inter:500,400,700,600");
+
+        /* The following line is used to measure usage of this code. You can remove it if you want. */
+        @import url("https://px.animaapp.com/66ce1d7f6f327c69ae0784fd.66ce1d806f327c69ae078500.RaqJz9D.hch.png");
+
+
+        .screen textarea:focus,
+        .screen input:focus {
+            outline: none;
+        }
+
+        .screen * {
+            -webkit-font-smoothing: antialiased;
+            box-sizing: border-box;
+        }
+
+        .screen div {
+            -webkit-text-size-adjust: none;
+        }
+
+        .component-wrapper a {
+            display: contents;
+            pointer-events: auto;
+            text-decoration: none;
+        }
+
+        .component-wrapper * {
+            -webkit-font-smoothing: antialiased;
+            box-sizing: border-box;
+            pointer-events: none;
+        }
+
+        .component-wrapper a *,
+        .component-wrapper input,
+        .component-wrapper video,
+        .component-wrapper iframe {
+            pointer-events: auto;
+        }
+
+        .component-wrapper.not-ready,
+        .component-wrapper.not-ready * {
+            visibility: hidden !important;
+        }
+
+        .screen a {
+            display: contents;
+            text-decoration: none;
+        }
+
+        .full-width-a {
+            width: 100%;
+        }
+
+        .full-height-a {
+            height: 100%;
+        }
+
+        .container-center-vertical {
+            align-items: center;
+            display: flex;
+            flex-direction: row;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .container-center-vertical>* {
+            flex-shrink: 0;
+            pointer-events: auto;
+        }
+
+        .container-center-horizontal {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            pointer-events: none;
+            width: 100%;
+        }
+
+        .container-center-horizontal>* {
+            flex-shrink: 0;
+            pointer-events: auto;
+        }
+
+        .auto-animated div {
+            --z-index: -1;
+            opacity: 0;
+            position: absolute;
+        }
+
+        .auto-animated input {
+            --z-index: -1;
+            opacity: 0;
+            position: absolute;
+        }
+
+        .auto-animated .container-center-vertical,
+        .auto-animated .container-center-horizontal {
+            opacity: 1;
+        }
+
+        .overlay-base {
+            display: none;
+            height: 100%;
+            opacity: 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+        .overlay-base.animate-appear {
+            align-items: center;
+            animation: reveal 0.3s ease-in-out 1 normal forwards;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0;
+        }
+
+        .overlay-base.animate-disappear {
+            animation: reveal 0.3s ease-in-out 1 reverse forwards;
+            display: block;
+            opacity: 1;
+            pointer-events: none;
+        }
+
+        .overlay-base.animate-disappear * {
+            pointer-events: none;
+        }
+
+        @keyframes reveal {
+            from {
+                opacity: 0
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        .animate-nodelay {
+            animation-delay: 0s;
+        }
+
+        .align-self-flex-start {
+            align-self: flex-start;
+        }
+
+        .align-self-flex-end {
+            align-self: flex-end;
+        }
+
+        .align-self-flex-center {
+            align-self: flex-center;
+        }
+
+        .valign-text-middle {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .valign-text-bottom {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        input:focus {
+            outline: none;
+        }
+
+        .listeners-active,
+        .listeners-active * {
+            pointer-events: auto;
+        }
+
+        .hidden,
+        .hidden * {
+            pointer-events: none;
+            visibility: hidden;
+        }
+
+        .smart-layers-pointers,
+        .smart-layers-pointers * {
+            pointer-events: auto;
+            visibility: visible;
+        }
+
+        .listeners-active-click,
+        .listeners-active-click * {
+            cursor: pointer;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #000000;
+            --dashdarktemplatewebflowioreports1440x739defaultnero: #ffffff;
+            --decorationpurple: #bb87fc;
+            --grey191a23: #191a23;
+            --grey1d1e2b: #1d1e2b;
+            --grey292a35: #292a35;
+            --grey292b41: #292b41;
+            --grey2c2d3c: #2c2d3c;
+            --grey393a4b: #393a4b;
+            --grey858699: #858699;
+            --greyd2d3e0: #d2d3e0;
+            --greye0e1ec: #e0e1ec;
+            --greyeeeffc: #eeeffc;
+            --greyffffff: #ffffff;
+            --portage: #8986fc;
+            --primary575bc7: #575bc7;
+            --purple-pizzazz: #ff63d3;
+            --royal-blue: #5b68f1;
+            --salmon-pearl: #f24a4a;
+            --screamin-green: #74ff93;
+            --turquoise-blue: #5dd8ff;
+            --uiapp-background: #181921;
+            --uibackground-command-bar: #1d1e2b7f;
+            --uiborder-command-bar: #52526f70;
+            --uibutton-background: #85869833;
+            --uidivider: #52526f40;
+            --uifile-background: #4345632c;
+
+            --font-size-l: 13px;
+            --font-size-m: 12px;
+            --font-size-s: 11px;
+            --font-size-xl: 14px;
+            --font-size-xxl: 15px;
+            --font-size-xxxl: 16px;
+            --font-size-xxxxl: 20px;
+
+            --font-family-inter: "Inter", Helvetica;
+        }
+
+        .microregular {
+            font-family: var(--font-family-inter);
+            font-size: var(--font-size-s);
+            font-style: normal;
+            font-weight: 400;
+            letter-spacing: 0px;
+        }
+
+        .smallmedium {
+            font-family: var(--font-family-inter);
+            font-size: var(--font-size-l);
+            font-style: normal;
+            font-weight: 500;
+            letter-spacing: 0px;
+        }
+
+        .miniregular {
+            font-family: var(--font-family-inter);
+            font-size: var(--font-size-m);
+            font-style: normal;
+            font-weight: 400;
+            letter-spacing: 0px;
+        }
+
+        .minimedium {
+            font-family: var(--font-family-inter);
+            font-size: var(--font-size-m);
+            font-style: normal;
+            font-weight: 500;
+            letter-spacing: 0px;
+        }
+
+        .micromedium {
+            font-family: var(--font-family-inter);
+            font-size: var(--font-size-s);
+            font-style: normal;
+            font-weight: 500;
+            letter-spacing: 0px;
+        }
+
+        .smallregular {
+            font-family: var(--font-family-inter);
+            font-size: var(--font-size-l);
+            font-style: normal;
+            font-weight: 400;
+            letter-spacing: 0px;
+        }
+
+        .inter-semi-bold-white-20px {
+            color: var(--dashdarktemplatewebflowioreports1440x739defaultnero);
+            font-family: var(--font-family-inter);
+            font-size: var(--font-size-xxxxl);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .inter-semi-bold-white-12px {
+            color: var(--dashdarktemplatewebflowioreports1440x739defaultnero);
+            font-family: var(--font-family-inter);
+            font-size: var(--font-size-m);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        :root {}
+
+
+        /* screen - data-visualization-page */
+
+        .data-visualization-page {
+            background-color: var(--uiapp-background);
+            height: 962px;
+            overflow: hidden;
+            overflow-x: hidden;
+            position: relative;
+            width: 1512px;
+        }
+
+        .data-visualization-page .rectangle-1-58xVYz {
+            background-color: var(--uiapp-background);
+            border-bottom-style: none;
+            border-color: var(--grey2c2d3c);
+            border-left-style: none;
+            border-right-style: solid;
+            border-right-width: 1px;
+            border-top-style: none;
+            height: 945px;
+            left: 0px;
+            position: absolute;
+            top: 0px;
+            width: 220px;
+        }
+
+        .data-visualization-page .sidebar-menu-58xVYz {
+            background-color: var(--grey191a23);
+            border-bottom-style: none;
+            border-color: var(--grey2c2d3c);
+            border-left-style: none;
+            border-right-style: solid;
+            border-right-width: 1px;
+            border-top-style: none;
+            height: 962px;
+            left: 0px;
+            overflow: hidden;
+            position: absolute;
+            top: 0px;
+            width: 224px;
+        }
+
+        .data-visualization-page .frame-1000002334-8sJYCd {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex-direction: column;
+            gap: 28px;
+            justify-content: center;
+            left: 17px;
+            position: relative;
+            top: 0px;
+        }
+
+        .data-visualization-page .top-FMpbpU {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 4px;
+            padding: 12px 0px 0px;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-68-XKxXLe {
+            align-items: center;
+            background-color: transparent;
+            display: flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 22px;
+            position: relative;
+            width: 187px;
+        }
+
+        .data-visualization-page .frame-1000002327-xiMyaV {
+            align-items: flex-start;
+            align-self: stretch;
+            background-color: transparent;
+            display: flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 16px;
+            position: relative;
+            width: 100%;
+        }
+
+        .data-visualization-page .avater-TMJuw8 {
+            align-items: flex-end;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            gap: 17px;
+            position: relative;
+        }
+
+        .data-visualization-page .workspace-button-IWMDg0 {
+            align-items: center;
+            background-color: transparent;
+            border-radius: 4px;
+            display: inline-flex;
+            flex: 0 0 auto;
+            gap: 9px;
+            padding: 6px 9px;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-65-d1xdIr {
+            align-items: center;
+            background-color: var(--primary575bc7);
+            border-radius: 4px;
+            display: flex;
+            gap: 4px;
+            height: 18px;
+            justify-content: center;
+            padding: 4px;
+            position: relative;
+            width: 18px;
+        }
+
+        .data-visualization-page .mw-bMORF8 {
+            background-color: transparent;
+            color: var(--greyeeeffc);
+            font-style: normal;
+            font-weight: 400;
+            line-height: 12.1px;
+            margin-left: -5.50px;
+            margin-right: -5.50px;
+            margin-top: -2.00px;
+            position: relative;
+            text-align: center;
+            white-space: nowrap;
+            width: fit-content;
+        }
+
+        .data-visualization-page .my-workspace-d1xdIr {
+            background-color: transparent;
+            color: var(--greyeeeffc);
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+            position: relative;
+            text-align: left;
+            width: fit-content;
+        }
+
+        .data-visualization-page .avatar-button-IWMDg0 {
+            align-items: flex-start;
+            background-color: transparent;
+            border-radius: 4px;
+            display: inline-flex;
+            flex: 0 0 auto;
+            gap: 4px;
+            padding: 5px 6px;
+            position: relative;
+        }
+
+        .data-visualization-page .avatar-sQnTvL {
+            background-color: transparent;
+            background-image: url(https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/status-false--size-16px@2x.png);
+            background-position: 50% 50%;
+            background-size: cover;
+            border-radius: 100px;
+            flex: 0 0 auto;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .data-visualization-page .search-button-TMJuw8 {
+            align-items: center;
+            align-self: stretch;
+            background-color: var(--grey292a35);
+            border: 1px solid;
+            border-color: var(--grey393a4b);
+            border-radius: 4px;
+            box-shadow: 0px 1px 1px #00000026;
+            display: flex;
+            flex: 0 0 auto;
+            gap: 10px;
+            padding: 6px;
+            position: relative;
+            width: 100%;
+        }
+
+        .data-visualization-page .all-icon-SJ0Zoe {
+            height: 16px;
+            width: 16px;
+        }
+
+        .data-visualization-page .nav-FMpbpU {
+            align-items: flex-start;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 24px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .body-1-Lpq8S9 {
+            align-items: flex-end;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+        }
+
+        .data-visualization-page .menu-buttons-cbU0m8 {
+            background-color: var(--uibutton-background);
+            padding: 5.5px 7px;
+        }
+
+        .data-visualization-page .frame-1000002330-3j4QzX {
+            align-items: center;
+            background-color: transparent;
+            display: flex;
+            flex: 1;
+            flex-grow: 1;
+            gap: 10px;
+            position: relative;
+        }
+
+        .data-visualization-page .all-icon-zvROje {
+            height: 16px;
+            width: 16px;
+        }
+
+        .data-visualization-page .menu-buttons-7yLxQ7 {
+            background-color: transparent;
+            padding: 5.5px 7px;
+        }
+
+        .data-visualization-page .all-icon-bwof0J {
+            height: 16px;
+            width: 16px;
+        }
+
+        .data-visualization-page .menu-buttons-zEdgc4 {
+            background-color: transparent;
+            padding: 5.5px 2px 5.5px 24px;
+        }
+
+        .data-visualization-page .all-icon-my8Lum {
+            height: 16px;
+            width: 16px;
+        }
+
+        .data-visualization-page .menu-buttons-sk0tZu {
+            background-color: transparent;
+            padding: 5.5px 2px 5.5px 24px;
+        }
+
+        .data-visualization-page .all-icon-ZBelCp {
+            height: 16px;
+            width: 16px;
+        }
+
+        .data-visualization-page .menu-buttons-5yPryl {
+            background-color: transparent;
+            padding: 5.5px 2px 5.5px 24px;
+        }
+
+        .data-visualization-page .all-icon-rZuWK1 {
+            height: 16px;
+            width: 16px;
+        }
+
+        .data-visualization-page .managment-cbU0m8 {
+            align-items: flex-start;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 8px;
+            position: relative;
+        }
+
+        .data-visualization-page .menu-buttons-BowiKl {
+            background-color: transparent;
+            padding: 5.5px 7px;
+        }
+
+        .data-visualization-page .all-icon-q7AvXm {
+            height: 16px;
+            width: 16px;
+        }
+
+        .data-visualization-page .frame-1000002324-BowiKl {
+            align-items: flex-end;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 4px;
+            position: relative;
+        }
+
+        .data-visualization-page .menu-buttons-xOHXA3 {
+            background-color: transparent;
+            padding: 5.5px 2px 5.5px 24px;
+        }
+
+        .data-visualization-page .all-icon-cNNmrS {
+            height: 16px;
+            width: 16px;
+        }
+
+        .data-visualization-page .frame-1000002325-BowiKl {
+            align-items: flex-end;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 4px;
+            position: relative;
+        }
+
+        .data-visualization-page .menu-buttons-MvsS4j {
+            background-color: transparent;
+            padding: 5.5px 2px 5.5px 24px;
+        }
+
+        .data-visualization-page .all-icon-1Kmg59 {
+            height: 16px;
+            width: 16px;
+        }
+
+        .data-visualization-page .inbox-1Kmg59 {
+            margin-right: -9.00px;
+        }
+
+        .data-visualization-page .frame-1000002326-BowiKl {
+            align-items: flex-end;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 4px;
+            position: relative;
+        }
+
+        .data-visualization-page .menu-buttons-gxxivm {
+            background-color: transparent;
+            padding: 5.5px 2px 5.5px 24px;
+        }
+
+        .data-visualization-page .all-icon-EbxZw0 {
+            height: 16px;
+            width: 16px;
+        }
+
+        .data-visualization-page .menu-buttons-OIpQtw {
+            background-color: transparent;
+            padding: 5.5px 7px;
+        }
+
+        .data-visualization-page .all-icon-2sZxT0 {
+            height: 16px;
+            width: 16px;
+        }
+
+        .data-visualization-page .menu-buttons-qxoJtc {
+            background-color: transparent;
+            padding: 5.5px 2px 5.5px 24px;
+        }
+
+        .data-visualization-page .all-icon-xqFMt3 {
+            height: 16px;
+            width: 16px;
+        }
+
+        .data-visualization-page .menu-buttons-SJeDal {
+            background-color: transparent;
+            padding: 5.5px 2px 5.5px 24px;
+        }
+
+        .data-visualization-page .all-icon-WdQiKj {
+            height: 16px;
+            width: 16px;
+        }
+
+        .data-visualization-page .menu-buttons-x2KsRu {
+            background-color: transparent;
+            padding: 5.5px 2px 5.5px 24px;
+        }
+
+        .data-visualization-page .all-icon-xUSR3V {
+            height: 16px;
+            width: 16px;
+        }
+
+        .data-visualization-page .menu-buttons-ANUWdU {
+            background-color: transparent;
+            padding: 5.5px 2px 5.5px 24px;
+        }
+
+        .data-visualization-page .all-icon-15YE1j {
+            height: 16px;
+            width: 16px;
+        }
+
+        .data-visualization-page .inbox-15YE1j {
+            margin-right: -6.00px;
+        }
+
+        .data-visualization-page .menu-buttons-rZds8Q {
+            background-color: transparent;
+            padding: 5.5px 2px 5.5px 24px;
+        }
+
+        .data-visualization-page .all-icon-QBqYZi {
+            height: 16px;
+            width: 16px;
+        }
+
+        .data-visualization-page .menu-buttons-FLjBat {
+            background-color: transparent;
+            padding: 5.5px 7px;
+        }
+
+        .data-visualization-page .all-icon-AQZxe0 {
+            height: 16px;
+            width: 16px;
+        }
+
+        .data-visualization-page .frame-1000002332-Lpq8S9 {
+            align-items: flex-start;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 12px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-1000002337-A8PBPx {
+            align-items: flex-start;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 24px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .invite-fEqRXH {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 6px;
+            padding: 0px 0px 18px;
+            position: relative;
+        }
+
+        .data-visualization-page .bottom-menu-buttons-TT6NQ3 {
+            gap: 9px;
+        }
+
+        .data-visualization-page .plus-5O2ily {
+            background-color: transparent;
+            height: 10px;
+            position: relative;
+            width: 10px;
+        }
+
+        .data-visualization-page .invite-people-5O2ily {
+            background-color: transparent;
+            color: var(--grey858699);
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            margin-top: -1.00px;
+            position: relative;
+            text-align: left;
+            width: fit-content;
+        }
+
+        .data-visualization-page .bottom-menu-buttons-pn69vc {
+            gap: 8px;
+        }
+
+        .data-visualization-page .book-aa31cm {
+            background-color: transparent;
+            height: 12px;
+            position: relative;
+            width: 12px;
+        }
+
+        .data-visualization-page .help-support-aa31cm {
+            background-color: transparent;
+            color: var(--grey858699);
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            margin-top: -1.00px;
+            position: relative;
+            text-align: left;
+            width: fit-content;
+        }
+
+        .data-visualization-page .sidebar-banner-fEqRXH {
+            padding: 7px 10px;
+        }
+
+        .data-visualization-page .sidebar-banner-A8PBPx {
+            padding: 10px;
+        }
+
+        .data-visualization-page .all-icon-xYPDsq {
+            height: 12px;
+            width: 12px;
+        }
+
+        .data-visualization-page .frame-59-nxs460 {
+            align-items: flex-start;
+            align-self: stretch;
+            background-color: transparent;
+            display: flex;
+            flex: 0 0 auto;
+            gap: 4px;
+            padding: 6px 0px;
+            position: relative;
+            width: 100%;
+        }
+
+        .data-visualization-page .use-our-migration-as-b0wP5a {
+            background-color: transparent;
+            color: var(--grey858699);
+            flex: 1;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 12.1px;
+            margin-top: -1.00px;
+            position: relative;
+            text-align: left;
+        }
+
+        .data-visualization-page .buttons-nxs460 {
+            align-items: center;
+            background-color: transparent;
+            border-radius: 4px;
+            box-shadow: 0px 1px 1px #00000026;
+            display: inline-flex;
+            flex: 0 0 auto;
+            gap: 8px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .try-now-uxdi0k {
+            background-color: transparent;
+            color: var(--primary575bc7);
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+            margin-top: -1.00px;
+            position: relative;
+            text-align: left;
+            width: fit-content;
+        }
+
+        .data-visualization-page .close-button-xYPDsq {
+            align-items: flex-start;
+            background-color: transparent;
+            border-radius: 4px;
+            display: inline-flex;
+            gap: 4px;
+            left: 163px;
+            padding: 7px;
+            position: absolute;
+            top: 0px;
+        }
+
+        .data-visualization-page .all-icon-mwo1Yy {
+            height: 14.000000953674316px;
+            width: 14.000000953674316px;
+        }
+
+        .data-visualization-page .frame-309-58xVYz {
+            align-items: center;
+            background-color: var(--uibackground-command-bar);
+            border: 1px solid;
+            border-color: var(--uiborder-command-bar);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            justify-content: center;
+            left: 256px;
+            overflow: hidden;
+            padding: 20px 24px;
+            position: absolute;
+            top: 72px;
+            width: 1224px;
+        }
+
+        .data-visualization-page .frame-1000002378-JOSxv8 {
+            align-items: center;
+            align-self: stretch;
+            background-color: transparent;
+            display: flex;
+            flex: 0 0 auto;
+            gap: 8px;
+            justify-content: center;
+            position: relative;
+            width: 100%;
+        }
+
+        .data-visualization-page .revenue-eKhxY0 {
+            background-color: transparent;
+            color: var(--greye0e1ec);
+            font-family: var(--font-family-inter);
+            font-size: var(--font-size-xxxl);
+            font-style: normal;
+            font-weight: 500;
+            letter-spacing: 0.00px;
+            line-height: normal;
+            position: relative;
+            text-align: left;
+            white-space: nowrap;
+            width: fit-content;
+        }
+
+        .data-visualization-page .frame-302-eKhxY0 {
+            align-items: center;
+            background-color: transparent;
+            display: flex;
+            flex: 1;
+            flex-grow: 1;
+            justify-content: flex-end;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-301-Yq2mOG {
+            align-items: flex-start;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            position: relative;
+        }
+
+        .data-visualization-page .simple-dropdown-KtFXAQ {
+            background-color: var(--primary575bc7);
+            border-radius: 4px 0px 0px 4px;
+        }
+
+        .data-visualization-page .simple-dropdown-GOvK4c {
+            background-color: var(--uidivider);
+            border-radius: 0px 4px 4px 0px;
+        }
+
+        .data-visualization-page .dropdown-filter-options-eKhxY0 {
+            align-items: flex-end;
+            background-color: transparent;
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            flex-grow: 1;
+            gap: 4px;
+            padding: 0px 4px;
+            position: relative;
+        }
+
+        .data-visualization-page .dropdown-filter-options-4HYumZ {
+            align-items: center;
+            background-color: transparent;
+            border-radius: 6px;
+            display: inline-flex;
+            flex: 0 0 auto;
+            gap: 55px;
+            padding: 8px 3px 8px 6px;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-77-Uxzlj2 {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            gap: 12px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .all-icon-Qetvmw {
+            height: 16px;
+            width: 16px;
+        }
+
+        .data-visualization-page .jan-2-2024-Qetvmw {
+            background-color: transparent;
+            color: var(--greye0e1ec);
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            margin-top: -1.00px;
+            position: relative;
+            text-align: left;
+            width: fit-content;
+        }
+
+        .data-visualization-page .last-30-days-GdYb9c {
+            font-weight: 400;
+            line-height: normal;
+            text-align: left;
+        }
+
+        .data-visualization-page .dropdown-filter-optionsa-down-GdYb9c {
+            background-color: transparent;
+            height: 16px;
+            position: relative;
+            width: 16px;
+        }
+
+        .data-visualization-page .divsmall-details-card-grid-JOSxv8 {
+            align-items: flex-start;
+            background-color: transparent;
+            display: flex;
+            flex: 0 0 auto;
+            gap: 24px;
+            position: relative;
+            width: 1176px;
+        }
+
+        .data-visualization-page .frame-1171275154-ix6Att {
+            align-items: flex-start;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 24px;
+            position: relative;
+        }
+
+        .data-visualization-page .total-mrr-Y7tBDX {
+            line-height: 14px;
+            width: 97px;
+        }
+
+        .data-visualization-page .x14775-h2wnS5 {
+            align-self: stretch;
+            text-align: left;
+            width: 95px;
+        }
+
+        .data-visualization-page .arpu-XCdIWy {
+            line-height: 14px;
+            margin-top: -1.00px;
+            width: 97px;
+        }
+
+        .data-visualization-page .x10000-HTaFKJ {
+            align-self: stretch;
+            margin-top: -1.00px;
+            text-align: left;
+            width: 95px;
+        }
+
+        .data-visualization-page .frame-1171275151-ix6Att {
+            align-items: flex-start;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 24px;
+            position: relative;
+        }
+
+        .data-visualization-page .new-mrr-xuxGNf {
+            line-height: 14px;
+            width: 97px;
+        }
+
+        .data-visualization-page .x14775-JxyGnt {
+            align-self: stretch;
+            text-align: left;
+            width: 95px;
+        }
+
+        .data-visualization-page .reactivations-Hyf2Ao {
+            line-height: 14px;
+            margin-top: -1.00px;
+            width: 97px;
+        }
+
+        .data-visualization-page .x10000-71t0AV {
+            align-self: stretch;
+            margin-top: -1.00px;
+            text-align: left;
+            width: 95px;
+        }
+
+        .data-visualization-page .frame-1171275152-ix6Att {
+            align-items: flex-start;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 24px;
+            position: relative;
+        }
+
+        .data-visualization-page .upgrades-NLQkmU {
+            line-height: 14px;
+            margin-top: -1.00px;
+            width: 97px;
+        }
+
+        .data-visualization-page .x13000-Ogiczn {
+            align-self: stretch;
+            margin-top: -1.00px;
+            text-align: left;
+            width: 95px;
+        }
+
+        .data-visualization-page .existing-i3F9cM {
+            line-height: 14px;
+            margin-top: -1.00px;
+            width: 97px;
+        }
+
+        .data-visualization-page .x10000-75sW9N {
+            align-self: stretch;
+            margin-top: -1.00px;
+            text-align: left;
+            width: 95px;
+        }
+
+        .data-visualization-page .frame-1171275153-ix6Att {
+            align-items: flex-start;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 24px;
+            position: relative;
+        }
+
+        .data-visualization-page .downgrades-zcNvox {
+            line-height: 14px;
+            margin-top: -1.00px;
+            width: 97px;
+        }
+
+        .data-visualization-page .x755-L9PHTl {
+            align-self: stretch;
+            background-color: transparent;
+            letter-spacing: 0.00px;
+            line-height: normal;
+            margin-top: -1.00px;
+            position: relative;
+            text-align: left;
+            width: 95px;
+        }
+
+        .data-visualization-page .churn-Qdx7nw {
+            line-height: 14px;
+            margin-top: -1.00px;
+            width: 97px;
+        }
+
+        .data-visualization-page .x100-9qRH0R {
+            align-self: stretch;
+            margin-top: -1.00px;
+            text-align: left;
+            width: 95px;
+        }
+
+        .data-visualization-page .frame-1000002300-JOSxv8 {
+            align-items: center;
+            background-color: transparent;
+            display: flex;
+            flex: 0 0 auto;
+            gap: 28px;
+            justify-content: flex-end;
+            position: relative;
+            width: 1175px;
+        }
+
+        .data-visualization-page .frame-295-lG2uKk {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            gap: 4px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .label-dots-ycGNKh {
+            background-color: var(--salmon-pearl);
+            border-color: var(--uibackground-command-bar);
+            height: 9px;
+            position: relative;
+            width: 9px;
+        }
+
+        .data-visualization-page .total-mrr-ycGNKh {
+            line-height: normal;
+            width: fit-content;
+        }
+
+        .data-visualization-page .frame-296-lG2uKk {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            gap: 4px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .label-dots-xuZDC0 {
+            background-color: var(--portage);
+            border-color: var(--uibackground-command-bar);
+            height: 9px;
+            position: relative;
+            width: 9px;
+        }
+
+        .data-visualization-page .new-mrp-xuZDC0 {
+            background-color: transparent;
+            color: var(--greye0e1ec);
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+            margin-top: -1.00px;
+            position: relative;
+            text-align: left;
+            width: fit-content;
+        }
+
+        .data-visualization-page .frame-297-lG2uKk {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            gap: 4px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .label-dots-zSEjNl {
+            background-color: var(--turquoise-blue);
+            border-color: var(--uibackground-command-bar);
+            height: 9px;
+            position: relative;
+            width: 9px;
+        }
+
+        .data-visualization-page .reactivations-zSEjNl {
+            line-height: normal;
+            margin-top: -1.00px;
+            width: fit-content;
+        }
+
+        .data-visualization-page .frame-298-lG2uKk {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            gap: 4px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .label-dots-gtWGBu {
+            background-color: #4af26e;
+            border-color: var(--uibackground-command-bar);
+            height: 9px;
+            position: relative;
+            width: 9px;
+        }
+
+        .data-visualization-page .upgrades-gtWGBu {
+            line-height: normal;
+            margin-top: -1.00px;
+            width: fit-content;
+        }
+
+        .data-visualization-page .label-dots-9srHqO {
+            background-color: #6c79ff;
+            border-color: var(--uibackground-command-bar);
+            height: 9px;
+            position: relative;
+            width: 9px;
+        }
+
+        .data-visualization-page .existing-9srHqO {
+            line-height: normal;
+            margin-top: -1.00px;
+            width: fit-content;
+        }
+
+        .data-visualization-page .label-dots-grFd9N {
+            background-color: var(--decorationpurple);
+            border-color: var(--uibackground-command-bar);
+            height: 9px;
+            position: relative;
+            width: 9px;
+        }
+
+        .data-visualization-page .downgrades-grFd9N {
+            line-height: normal;
+            margin-top: -1.00px;
+            width: fit-content;
+        }
+
+        .data-visualization-page .frame-294-lG2uKk {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            gap: 4px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .label-dots-4Fch89 {
+            background-color: var(--purple-pizzazz);
+            border-color: var(--uibackground-command-bar);
+            height: 9px;
+            position: relative;
+            width: 9px;
+        }
+
+        .data-visualization-page .churn-4Fch89 {
+            line-height: normal;
+            margin-top: -1.00px;
+            width: fit-content;
+        }
+
+        .data-visualization-page .frame-1000002242-JOSxv8 {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .data-visualization-page .frame-1000002247-YOwmGz {
+            align-items: center;
+            align-self: stretch;
+            background-color: transparent;
+            display: flex;
+            flex: 0 0 auto;
+            position: relative;
+            width: 100%;
+        }
+
+        .data-visualization-page .frame-1000002238-ePy1sf {
+            display: inline-flex;
+            gap: 10px;
+        }
+
+        .data-visualization-page .x13k-nJeNcI {
+            background-color: transparent;
+            color: var(--grey858699);
+            font-style: normal;
+            font-weight: 400;
+            line-height: 13.2px;
+            margin-top: -1.00px;
+            position: relative;
+            text-align: left;
+            width: 31px;
+        }
+
+        .data-visualization-page .frame-1000002248-YOwmGz {
+            align-items: center;
+            align-self: stretch;
+            background-color: transparent;
+            display: flex;
+            flex: 0 0 auto;
+            position: relative;
+            width: 100%;
+        }
+
+        .data-visualization-page .frame-1000002238-VYIb3a {
+            display: inline-flex;
+            gap: 10px;
+        }
+
+        .data-visualization-page .x12k-yn1g01 {
+            background-color: transparent;
+            color: var(--grey858699);
+            font-style: normal;
+            font-weight: 400;
+            line-height: 13.2px;
+            margin-top: -1.00px;
+            position: relative;
+            text-align: left;
+            width: 31px;
+        }
+
+        .data-visualization-page .frame-1000002249-YOwmGz {
+            align-items: center;
+            align-self: stretch;
+            background-color: transparent;
+            display: flex;
+            flex: 0 0 auto;
+            position: relative;
+            width: 100%;
+        }
+
+        .data-visualization-page .frame-1000002238-mDc0FD {
+            display: inline-flex;
+            gap: 10px;
+        }
+
+        .data-visualization-page .x11k-DZ6M2S {
+            background-color: transparent;
+            color: var(--grey858699);
+            font-style: normal;
+            font-weight: 400;
+            line-height: 13.2px;
+            margin-top: -1.00px;
+            position: relative;
+            text-align: left;
+            width: 31px;
+        }
+
+        .data-visualization-page .frame-1000002250-YOwmGz {
+            align-items: center;
+            align-self: stretch;
+            background-color: transparent;
+            display: flex;
+            flex: 0 0 auto;
+            position: relative;
+            width: 100%;
+        }
+
+        .data-visualization-page .frame-1000002238-EzO38w {
+            display: inline-flex;
+            gap: 10px;
+        }
+
+        .data-visualization-page .x10k-PsbRF3 {
+            background-color: transparent;
+            color: var(--grey858699);
+            font-style: normal;
+            font-weight: 400;
+            line-height: 13.2px;
+            margin-top: -1.00px;
+            position: relative;
+            text-align: left;
+            width: 31px;
+        }
+
+        .data-visualization-page .frame-1000002251-YOwmGz {
+            align-items: center;
+            align-self: stretch;
+            background-color: transparent;
+            display: flex;
+            flex: 0 0 auto;
+            position: relative;
+            width: 100%;
+        }
+
+        .data-visualization-page .frame-1000002238-61w1dR {
+            display: inline-flex;
+            gap: 10px;
+        }
+
+        .data-visualization-page .x9k-K1qg4V {
+            background-color: transparent;
+            color: var(--grey858699);
+            font-style: normal;
+            font-weight: 400;
+            line-height: 13.2px;
+            margin-top: -1.00px;
+            position: relative;
+            text-align: left;
+            width: 31px;
+        }
+
+        .data-visualization-page .frame-1000002252-YOwmGz {
+            align-items: center;
+            align-self: stretch;
+            background-color: transparent;
+            display: flex;
+            flex: 0 0 auto;
+            position: relative;
+            width: 100%;
+        }
+
+        .data-visualization-page .frame-1000002238-BrXDXm {
+            display: inline-flex;
+            gap: 10px;
+        }
+
+        .data-visualization-page .x8k-0SEqCe {
+            background-color: transparent;
+            color: var(--grey858699);
+            font-style: normal;
+            font-weight: 400;
+            line-height: 13.2px;
+            margin-top: -1.00px;
+            position: relative;
+            text-align: left;
+            width: 31px;
+        }
+
+        .data-visualization-page .frame-1000002242-YOwmGz {
+            align-items: center;
+        }
+
+        .data-visualization-page .frame-1000002238-DW1YqU {
+            display: inline-flex;
+            gap: 10px;
+        }
+
+        .data-visualization-page .x7k-GTT4xV {
+            background-color: transparent;
+            color: var(--grey858699);
+            font-style: normal;
+            font-weight: 400;
+            line-height: 13.2px;
+            margin-top: -1.00px;
+            position: relative;
+            text-align: left;
+            width: 31px;
+        }
+
+        .data-visualization-page .frame-1000002238-RmYG6q {
+            display: inline-flex;
+            gap: 10px;
+        }
+
+        .data-visualization-page .x6k-rsxiDt {
+            background-color: transparent;
+            color: var(--grey858699);
+            font-style: normal;
+            font-weight: 400;
+            line-height: 13.2px;
+            margin-top: -1.00px;
+            position: relative;
+            text-align: left;
+            width: 31px;
+        }
+
+        .data-visualization-page .frame-1000002244-YOwmGz {
+            align-items: center;
+            align-self: stretch;
+            background-color: transparent;
+            display: flex;
+            flex: 0 0 auto;
+            position: relative;
+            width: 100%;
+        }
+
+        .data-visualization-page .frame-1000002238-rqoJtR {
+            display: inline-flex;
+            gap: 10px;
+        }
+
+        .data-visualization-page .x5k-eonLuP {
+            background-color: transparent;
+            color: var(--grey858699);
+            font-style: normal;
+            font-weight: 400;
+            line-height: 13.2px;
+            margin-top: -1.00px;
+            position: relative;
+            text-align: left;
+            width: 31px;
+        }
+
+        .data-visualization-page .frame-1000002240-YOwmGz {
+            align-items: center;
+            align-self: stretch;
+            background-color: transparent;
+            display: flex;
+            flex: 0 0 auto;
+            position: relative;
+            width: 100%;
+        }
+
+        .data-visualization-page .frame-1000002238-IOpaqf {
+            display: inline-flex;
+            gap: 10px;
+        }
+
+        .data-visualization-page .x4k-rYc9gn {
+            background-color: transparent;
+            color: var(--grey858699);
+            font-style: normal;
+            font-weight: 400;
+            line-height: 13.2px;
+            margin-top: -1.00px;
+            position: relative;
+            text-align: left;
+            width: 31px;
+        }
+
+        .data-visualization-page .frame-1000002239-YOwmGz {
+            align-items: center;
+            align-self: stretch;
+            background-color: transparent;
+            display: flex;
+            flex: 0 0 auto;
+            position: relative;
+            width: 100%;
+        }
+
+        .data-visualization-page .frame-1000002238-vxbcoh {
+            display: inline-flex;
+            gap: 10px;
+        }
+
+        .data-visualization-page .x3k-wWBxwh {
+            background-color: transparent;
+            color: var(--grey858699);
+            font-style: normal;
+            font-weight: 400;
+            line-height: 13.2px;
+            margin-top: -1.00px;
+            position: relative;
+            text-align: left;
+            width: 31px;
+        }
+
+        .data-visualization-page .frame-1000002238-YOwmGz {
+            align-self: stretch;
+            display: flex;
+            width: 100%;
+        }
+
+        .data-visualization-page .frame-1000002238-XdmEtk {
+            display: inline-flex;
+            gap: 10px;
+        }
+
+        .data-visualization-page .x2k-Utmtcx {
+            background-color: transparent;
+            color: var(--grey858699);
+            font-style: normal;
+            font-weight: 400;
+            line-height: 13.2px;
+            margin-top: -1.00px;
+            position: relative;
+            text-align: left;
+            width: 31px;
+        }
+
+        .data-visualization-page .frame-1000002237-YOwmGz {
+            align-items: center;
+            align-self: stretch;
+            background-color: transparent;
+            display: flex;
+            flex: 0 0 auto;
+            position: relative;
+            width: 100%;
+        }
+
+        .data-visualization-page .frame-1000002238-6BNwqX {
+            display: inline-flex;
+            gap: 10px;
+        }
+
+        .data-visualization-page .x1k-7SOO3U {
+            background-color: transparent;
+            color: var(--grey858699);
+            font-style: normal;
+            font-weight: 400;
+            line-height: 13.2px;
+            margin-top: -1.00px;
+            position: relative;
+            text-align: left;
+            width: 31px;
+        }
+
+        .data-visualization-page .frame-1000002235-YOwmGz {
+            align-items: center;
+            align-self: stretch;
+            background-color: transparent;
+            display: flex;
+            flex: 0 0 auto;
+            position: relative;
+            width: 100%;
+        }
+
+        .data-visualization-page .frame-1000002236-fiEpEh {
+            align-items: center;
+            background-color: transparent;
+            display: flex;
+            gap: 10px;
+            position: relative;
+            width: 31px;
+        }
+
+        .data-visualization-page .x0k-vEdp19 {
+            background-color: transparent;
+            color: var(--grey858699);
+            flex: 1;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 13.2px;
+            margin-top: -1.00px;
+            position: relative;
+            text-align: left;
+        }
+
+        .data-visualization-page .line-4-fiEpEh {
+            background-color: transparent;
+            flex: 1;
+            flex-grow: 1;
+            height: 1px;
+            position: relative;
+        }
+
+        .data-visualization-page .group-289341-YOwmGz {
+            background-color: transparent;
+            height: 517px;
+            left: 33px;
+            position: absolute;
+            top: 29px;
+            width: 1143px;
+        }
+
+        .data-visualization-page .frame-1000002243-JOSxv8 {
+            justify-content: space-between;
+            padding: 0px 0px 0px 29px;
+        }
+
+        .data-visualization-page .frame-1000002345-Gk3VsO {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-1000002376-Gk3VsO {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-1000002346-Gk3VsO {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-1000002347-Gk3VsO {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-1000002348-Gk3VsO {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-1000002349-Gk3VsO {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-1000002350-Gk3VsO {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-1000002351-Gk3VsO {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-1000002352-Gk3VsO {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-1000002353-Gk3VsO {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-1000002354-Gk3VsO {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-1000002355-Gk3VsO {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-1000002356-Gk3VsO {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-1000002357-Gk3VsO {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-1000002358-Gk3VsO {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-1000002359-Gk3VsO {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-1000002360-Gk3VsO {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-1000002361-Gk3VsO {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-1000002362-Gk3VsO {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-1000002363-Gk3VsO {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-1000002547-58xVYz {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            gap: 6px;
+            left: 256px;
+            position: absolute;
+            top: 32px;
+        }
+
+        .data-visualization-page .solararrow-left-linear-NyCmVL {
+            background-color: transparent;
+            height: 24px;
+            position: relative;
+            width: 24px;
+        }
+
+        .data-visualization-page .back-NyCmVL {
+            background-color: transparent;
+            letter-spacing: 0.00px;
+            line-height: 13.2px;
+            position: relative;
+            text-align: left;
+            white-space: nowrap;
+            width: fit-content;
+        }
+
+        .data-visualization-page .group-1171275188-58xVYz {
+            background-color: transparent;
+            height: 534px;
+            left: 337px;
+            position: absolute;
+            top: 355px;
+            width: 1114px;
+        }
+
+        .data-visualization-page .group-1171275169-yA7uI0 {
+            background-color: transparent;
+            height: 224px;
+            left: 0px;
+            position: absolute;
+            top: 310px;
+            width: 26px;
+        }
+
+        .data-visualization-page .rectangle-5558-B22ZOT {
+            height: 224px;
+        }
+
+        .data-visualization-page .rectangle-5559-B22ZOT {
+            height: 178px;
+            top: 46px;
+        }
+
+        .data-visualization-page .rectangle-5560-B22ZOT {
+            height: 167px;
+            top: 57px;
+        }
+
+        .data-visualization-page .rectangle-5561-B22ZOT {
+            height: 143px;
+            top: 81px;
+        }
+
+        .data-visualization-page .rectangle-5562-B22ZOT {
+            height: 141px;
+            top: 83px;
+        }
+
+        .data-visualization-page .rectangle-5563-B22ZOT {
+            height: 56px;
+            top: 168px;
+        }
+
+        .data-visualization-page .rectangle-5564-B22ZOT {
+            height: 16px;
+            top: 208px;
+        }
+
+        .data-visualization-page .group-1171275170-yA7uI0 {
+            background-color: transparent;
+            height: 253px;
+            left: 57px;
+            position: absolute;
+            top: 281px;
+            width: 26px;
+        }
+
+        .data-visualization-page .rectangle-5558-PLW3pM {
+            height: 253px;
+        }
+
+        .data-visualization-page .rectangle-5559-PLW3pM {
+            height: 201px;
+            top: 52px;
+        }
+
+        .data-visualization-page .rectangle-5560-PLW3pM {
+            height: 188px;
+            top: 65px;
+        }
+
+        .data-visualization-page .rectangle-5561-PLW3pM {
+            height: 161px;
+            top: 92px;
+        }
+
+        .data-visualization-page .rectangle-5562-PLW3pM {
+            height: 159px;
+            top: 94px;
+        }
+
+        .data-visualization-page .rectangle-5563-PLW3pM {
+            height: 63px;
+            top: 190px;
+        }
+
+        .data-visualization-page .rectangle-5564-PLW3pM {
+            height: 18px;
+            top: 235px;
+        }
+
+        .data-visualization-page .group-1171275171-yA7uI0 {
+            background-color: transparent;
+            height: 285px;
+            left: 114px;
+            position: absolute;
+            top: 249px;
+            width: 26px;
+        }
+
+        .data-visualization-page .rectangle-5558-x7aLIh {
+            height: 285px;
+        }
+
+        .data-visualization-page .rectangle-5559-x7aLIh {
+            height: 226px;
+            top: 59px;
+        }
+
+        .data-visualization-page .rectangle-5560-x7aLIh {
+            height: 212px;
+            top: 73px;
+        }
+
+        .data-visualization-page .rectangle-5561-x7aLIh {
+            height: 182px;
+            top: 103px;
+        }
+
+        .data-visualization-page .rectangle-5562-x7aLIh {
+            height: 179px;
+            top: 106px;
+        }
+
+        .data-visualization-page .rectangle-5563-x7aLIh {
+            height: 71px;
+            top: 214px;
+        }
+
+        .data-visualization-page .rectangle-5564-x7aLIh {
+            height: 20px;
+            top: 265px;
+        }
+
+        .data-visualization-page .group-1171275172-yA7uI0 {
+            background-color: transparent;
+            height: 302px;
+            left: 172px;
+            position: absolute;
+            top: 232px;
+            width: 26px;
+        }
+
+        .data-visualization-page .rectangle-5558-1gnjFP {
+            height: 302px;
+        }
+
+        .data-visualization-page .rectangle-5559-1gnjFP {
+            height: 240px;
+            top: 62px;
+        }
+
+        .data-visualization-page .rectangle-5560-1gnjFP {
+            height: 225px;
+            top: 77px;
+        }
+
+        .data-visualization-page .rectangle-5561-1gnjFP {
+            height: 193px;
+            top: 109px;
+        }
+
+        .data-visualization-page .rectangle-5562-1gnjFP {
+            height: 190px;
+            top: 112px;
+        }
+
+        .data-visualization-page .rectangle-5563-1gnjFP {
+            height: 74px;
+            top: 228px;
+        }
+
+        .data-visualization-page .rectangle-5564-1gnjFP {
+            height: 21px;
+            top: 281px;
+        }
+
+        .data-visualization-page .group-1171275173-yA7uI0 {
+            background-color: transparent;
+            height: 319px;
+            left: 230px;
+            position: absolute;
+            top: 215px;
+            width: 26px;
+        }
+
+        .data-visualization-page .rectangle-5558-wIPgY5 {
+            height: 319px;
+        }
+
+        .data-visualization-page .rectangle-5559-wIPgY5 {
+            height: 254px;
+            top: 65px;
+        }
+
+        .data-visualization-page .rectangle-5560-wIPgY5 {
+            height: 238px;
+            top: 81px;
+        }
+
+        .data-visualization-page .rectangle-5561-wIPgY5 {
+            height: 204px;
+            top: 115px;
+        }
+
+        .data-visualization-page .rectangle-5562-wIPgY5 {
+            height: 201px;
+            top: 118px;
+        }
+
+        .data-visualization-page .rectangle-5563-wIPgY5 {
+            height: 79px;
+            top: 240px;
+        }
+
+        .data-visualization-page .rectangle-5564-wIPgY5 {
+            height: 23px;
+            top: 296px;
+        }
+
+        .data-visualization-page .group-1171275174-yA7uI0 {
+            background-color: transparent;
+            height: 337px;
+            left: 288px;
+            position: absolute;
+            top: 197px;
+            width: 26px;
+        }
+
+        .data-visualization-page .rectangle-5558-zIe9LL {
+            height: 337px;
+        }
+
+        .data-visualization-page .rectangle-5559-zIe9LL {
+            height: 267px;
+            top: 70px;
+        }
+
+        .data-visualization-page .rectangle-5560-zIe9LL {
+            height: 251px;
+            top: 86px;
+        }
+
+        .data-visualization-page .rectangle-5561-zIe9LL {
+            height: 215px;
+            top: 122px;
+        }
+
+        .data-visualization-page .rectangle-5562-zIe9LL {
+            height: 212px;
+            top: 125px;
+        }
+
+        .data-visualization-page .rectangle-5563-zIe9LL {
+            height: 83px;
+            top: 254px;
+        }
+
+        .data-visualization-page .rectangle-5564-zIe9LL {
+            height: 24px;
+            top: 313px;
+        }
+
+        .data-visualization-page .group-1171275175-yA7uI0 {
+            background-color: transparent;
+            height: 349px;
+            left: 345px;
+            position: absolute;
+            top: 185px;
+            width: 26px;
+        }
+
+        .data-visualization-page .rectangle-5558-CHpH1H {
+            height: 349px;
+        }
+
+        .data-visualization-page .rectangle-5559-CHpH1H {
+            height: 278px;
+            top: 71px;
+        }
+
+        .data-visualization-page .rectangle-5560-CHpH1H {
+            height: 260px;
+            top: 89px;
+        }
+
+        .data-visualization-page .rectangle-5561-CHpH1H {
+            height: 223px;
+            top: 126px;
+        }
+
+        .data-visualization-page .rectangle-5562-CHpH1H {
+            height: 220px;
+            top: 129px;
+        }
+
+        .data-visualization-page .rectangle-5563-CHpH1H {
+            height: 87px;
+            top: 262px;
+        }
+
+        .data-visualization-page .rectangle-5564-CHpH1H {
+            height: 25px;
+            top: 324px;
+        }
+
+        .data-visualization-page .group-1171275176-yA7uI0 {
+            background-color: transparent;
+            height: 360px;
+            left: 403px;
+            position: absolute;
+            top: 174px;
+            width: 26px;
+        }
+
+        .data-visualization-page .rectangle-5558-2MByLv {
+            height: 360px;
+        }
+
+        .data-visualization-page .rectangle-5559-2MByLv {
+            height: 286px;
+            top: 74px;
+        }
+
+        .data-visualization-page .rectangle-5560-2MByLv {
+            height: 268px;
+            top: 92px;
+        }
+
+        .data-visualization-page .rectangle-5561-2MByLv {
+            height: 230px;
+            top: 130px;
+        }
+
+        .data-visualization-page .rectangle-5562-2MByLv {
+            height: 227px;
+            top: 133px;
+        }
+
+        .data-visualization-page .rectangle-5563-2MByLv {
+            height: 90px;
+            top: 270px;
+        }
+
+        .data-visualization-page .rectangle-5564-2MByLv {
+            height: 25px;
+            top: 335px;
+        }
+
+        .data-visualization-page .group-1171275177-yA7uI0 {
+            background-color: transparent;
+            height: 370px;
+            left: 461px;
+            position: absolute;
+            top: 164px;
+            width: 26px;
+        }
+
+        .data-visualization-page .rectangle-5558-P1Odei {
+            height: 370px;
+        }
+
+        .data-visualization-page .rectangle-5559-P1Odei {
+            height: 294px;
+            top: 76px;
+        }
+
+        .data-visualization-page .rectangle-5560-P1Odei {
+            height: 275px;
+            top: 95px;
+        }
+
+        .data-visualization-page .rectangle-5561-P1Odei {
+            height: 236px;
+            top: 134px;
+        }
+
+        .data-visualization-page .rectangle-5562-P1Odei {
+            height: 233px;
+            top: 137px;
+        }
+
+        .data-visualization-page .rectangle-5563-P1Odei {
+            height: 91px;
+            top: 279px;
+        }
+
+        .data-visualization-page .rectangle-5564-P1Odei {
+            height: 26px;
+            top: 344px;
+        }
+
+        .data-visualization-page .group-1171275178-yA7uI0 {
+            background-color: transparent;
+            height: 380px;
+            left: 522px;
+            position: absolute;
+            top: 154px;
+            width: 26px;
+        }
+
+        .data-visualization-page .rectangle-5558-zHjR6B {
+            height: 380px;
+        }
+
+        .data-visualization-page .rectangle-5559-zHjR6B {
+            height: 302px;
+            top: 78px;
+        }
+
+        .data-visualization-page .rectangle-5560-zHjR6B {
+            height: 283px;
+            top: 97px;
+        }
+
+        .data-visualization-page .rectangle-5561-zHjR6B {
+            height: 242px;
+            top: 138px;
+        }
+
+        .data-visualization-page .rectangle-5562-zHjR6B {
+            height: 239px;
+            top: 141px;
+        }
+
+        .data-visualization-page .rectangle-5563-zHjR6B {
+            height: 94px;
+            top: 286px;
+        }
+
+        .data-visualization-page .rectangle-5564-zHjR6B {
+            height: 26px;
+            top: 354px;
+        }
+
+        .data-visualization-page .group-1171275179-yA7uI0 {
+            background-color: transparent;
+            height: 397px;
+            left: 584px;
+            position: absolute;
+            top: 137px;
+            width: 26px;
+        }
+
+        .data-visualization-page .rectangle-5558-gAsf3R {
+            height: 397px;
+        }
+
+        .data-visualization-page .rectangle-5559-gAsf3R {
+            height: 315px;
+            top: 82px;
+        }
+
+        .data-visualization-page .rectangle-5560-gAsf3R {
+            height: 296px;
+            top: 101px;
+        }
+
+        .data-visualization-page .rectangle-5561-gAsf3R {
+            height: 253px;
+            top: 144px;
+        }
+
+        .data-visualization-page .rectangle-5562-gAsf3R {
+            height: 250px;
+            top: 147px;
+        }
+
+        .data-visualization-page .rectangle-5563-gAsf3R {
+            height: 99px;
+            top: 298px;
+        }
+
+        .data-visualization-page .rectangle-5564-gAsf3R {
+            height: 27px;
+            top: 370px;
+        }
+
+        .data-visualization-page .group-1171275180-yA7uI0 {
+            background-color: transparent;
+            height: 420px;
+            left: 646px;
+            position: absolute;
+            top: 114px;
+            width: 26px;
+        }
+
+        .data-visualization-page .rectangle-5558-PRrxGt {
+            height: 420px;
+        }
+
+        .data-visualization-page .rectangle-5559-PRrxGt {
+            height: 334px;
+            top: 86px;
+        }
+
+        .data-visualization-page .rectangle-5560-PRrxGt {
+            height: 313px;
+            top: 107px;
+        }
+
+        .data-visualization-page .rectangle-5561-PRrxGt {
+            height: 268px;
+            top: 152px;
+        }
+
+        .data-visualization-page .rectangle-5562-PRrxGt {
+            height: 264px;
+            top: 156px;
+        }
+
+        .data-visualization-page .rectangle-5563-PRrxGt {
+            height: 104px;
+            top: 316px;
+        }
+
+        .data-visualization-page .rectangle-5564-PRrxGt {
+            height: 30px;
+            top: 390px;
+        }
+
+        .data-visualization-page .group-1171275181-yA7uI0 {
+            background-color: transparent;
+            height: 434px;
+            left: 709px;
+            position: absolute;
+            top: 100px;
+            width: 26px;
+        }
+
+        .data-visualization-page .rectangle-5558-jJvg0Q {
+            height: 434px;
+        }
+
+        .data-visualization-page .rectangle-5559-jJvg0Q {
+            height: 345px;
+            top: 89px;
+        }
+
+        .data-visualization-page .rectangle-5560-jJvg0Q {
+            height: 324px;
+            top: 110px;
+        }
+
+        .data-visualization-page .rectangle-5561-jJvg0Q {
+            height: 277px;
+            top: 157px;
+        }
+
+        .data-visualization-page .rectangle-5562-jJvg0Q {
+            height: 273px;
+            top: 161px;
+        }
+
+        .data-visualization-page .rectangle-5563-jJvg0Q {
+            height: 108px;
+            top: 326px;
+        }
+
+        .data-visualization-page .rectangle-5564-jJvg0Q {
+            height: 31px;
+            top: 403px;
+        }
+
+        .data-visualization-page .group-1171275182-yA7uI0 {
+            background-color: transparent;
+            height: 448px;
+            left: 771px;
+            position: absolute;
+            top: 86px;
+            width: 26px;
+        }
+
+        .data-visualization-page .rectangle-5558-OQcR6d {
+            height: 448px;
+        }
+
+        .data-visualization-page .rectangle-5559-OQcR6d {
+            height: 356px;
+            top: 92px;
+        }
+
+        .data-visualization-page .rectangle-5560-OQcR6d {
+            height: 334px;
+            top: 114px;
+        }
+
+        .data-visualization-page .rectangle-5561-OQcR6d {
+            height: 286px;
+            top: 162px;
+        }
+
+        .data-visualization-page .rectangle-5562-OQcR6d {
+            height: 282px;
+            top: 166px;
+        }
+
+        .data-visualization-page .rectangle-5563-OQcR6d {
+            height: 111px;
+            top: 337px;
+        }
+
+        .data-visualization-page .rectangle-5564-OQcR6d {
+            height: 31px;
+            top: 417px;
+        }
+
+        .data-visualization-page .group-1171275183-yA7uI0 {
+            background-color: transparent;
+            height: 465px;
+            left: 835px;
+            position: absolute;
+            top: 69px;
+            width: 26px;
+        }
+
+        .data-visualization-page .rectangle-5558-LLjUwD {
+            height: 465px;
+        }
+
+        .data-visualization-page .rectangle-5559-LLjUwD {
+            height: 369px;
+            top: 96px;
+        }
+
+        .data-visualization-page .rectangle-5560-LLjUwD {
+            height: 346px;
+            top: 119px;
+        }
+
+        .data-visualization-page .rectangle-5561-LLjUwD {
+            height: 297px;
+            top: 168px;
+        }
+
+        .data-visualization-page .rectangle-5562-LLjUwD {
+            height: 292px;
+            top: 173px;
+        }
+
+        .data-visualization-page .rectangle-5563-LLjUwD {
+            height: 115px;
+            top: 350px;
+        }
+
+        .data-visualization-page .rectangle-5564-LLjUwD {
+            height: 32px;
+            top: 433px;
+        }
+
+        .data-visualization-page .group-1171275184-yA7uI0 {
+            background-color: transparent;
+            height: 485px;
+            left: 898px;
+            position: absolute;
+            top: 49px;
+            width: 26px;
+        }
+
+        .data-visualization-page .rectangle-5558-x3dUob {
+            height: 485px;
+        }
+
+        .data-visualization-page .rectangle-5559-x3dUob {
+            height: 385px;
+            top: 100px;
+        }
+
+        .data-visualization-page .rectangle-5560-x3dUob {
+            height: 361px;
+            top: 124px;
+        }
+
+        .data-visualization-page .rectangle-5561-x3dUob {
+            height: 310px;
+            top: 175px;
+        }
+
+        .data-visualization-page .rectangle-5562-x3dUob {
+            height: 305px;
+            top: 180px;
+        }
+
+        .data-visualization-page .rectangle-5563-x3dUob {
+            height: 120px;
+            top: 365px;
+        }
+
+        .data-visualization-page .rectangle-5564-x3dUob {
+            height: 35px;
+            top: 450px;
+        }
+
+        .data-visualization-page .group-1171275185-yA7uI0 {
+            background-color: transparent;
+            height: 502px;
+            left: 961px;
+            position: absolute;
+            top: 32px;
+            width: 26px;
+        }
+
+        .data-visualization-page .rectangle-5558-u8lYw5 {
+            height: 502px;
+        }
+
+        .data-visualization-page .rectangle-5559-u8lYw5 {
+            height: 399px;
+            top: 103px;
+        }
+
+        .data-visualization-page .rectangle-5560-u8lYw5 {
+            height: 374px;
+            top: 128px;
+        }
+
+        .data-visualization-page .rectangle-5561-u8lYw5 {
+            height: 321px;
+            top: 181px;
+        }
+
+        .data-visualization-page .rectangle-5562-u8lYw5 {
+            height: 316px;
+            top: 186px;
+        }
+
+        .data-visualization-page .rectangle-5563-u8lYw5 {
+            height: 125px;
+            top: 377px;
+        }
+
+        .data-visualization-page .rectangle-5564-u8lYw5 {
+            height: 36px;
+            top: 466px;
+        }
+
+        .data-visualization-page .group-1171275186-yA7uI0 {
+            background-color: transparent;
+            height: 514px;
+            left: 1024px;
+            position: absolute;
+            top: 20px;
+            width: 26px;
+        }
+
+        .data-visualization-page .rectangle-5558-F12NiX {
+            height: 514px;
+        }
+
+        .data-visualization-page .rectangle-5559-F12NiX {
+            height: 408px;
+            top: 106px;
+        }
+
+        .data-visualization-page .rectangle-5560-F12NiX {
+            height: 383px;
+            top: 131px;
+        }
+
+        .data-visualization-page .rectangle-5561-F12NiX {
+            height: 328px;
+            top: 186px;
+        }
+
+        .data-visualization-page .rectangle-5562-F12NiX {
+            height: 323px;
+            top: 191px;
+        }
+
+        .data-visualization-page .rectangle-5563-F12NiX {
+            height: 127px;
+            top: 387px;
+        }
+
+        .data-visualization-page .rectangle-5564-F12NiX {
+            height: 36px;
+            top: 478px;
+        }
+
+        .data-visualization-page .group-1171275187-yA7uI0 {
+            background-color: transparent;
+            height: 534px;
+            left: 1088px;
+            position: absolute;
+            top: 0px;
+            width: 26px;
+        }
+
+        .data-visualization-page .rectangle-5558-Hz5Ig7 {
+            height: 534px;
+        }
+
+        .data-visualization-page .rectangle-5559-Hz5Ig7 {
+            height: 417px;
+            top: 117px;
+        }
+
+        .data-visualization-page .rectangle-5560-Hz5Ig7 {
+            height: 391px;
+            top: 143px;
+        }
+
+        .data-visualization-page .rectangle-5561-Hz5Ig7 {
+            height: 335px;
+            top: 199px;
+        }
+
+        .data-visualization-page .rectangle-5562-Hz5Ig7 {
+            height: 330px;
+            top: 204px;
+        }
+
+        .data-visualization-page .rectangle-5563-Hz5Ig7 {
+            height: 130px;
+            top: 404px;
+        }
+
+        .data-visualization-page .rectangle-5564-Hz5Ig7 {
+            height: 37px;
+            top: 497px;
+        }
+
+        .data-visualization-page .label-dots-58xVYz {
+            background-color: var(--decorationpurple);
+            border-color: var(--uiborder-command-bar);
+            height: 8px;
+            left: 929px;
+            position: absolute;
+            top: 488px;
+            width: 8px;
+        }
+
+        .data-visualization-page .group-1000002012-58xVYz {
+            background-color: transparent;
+            height: 292px;
+            left: 784px;
+            position: absolute;
+            top: 498px;
+            width: 298px;
+        }
+
+        .data-visualization-page .frame-1000011534-rSmVCQ {
+            background-color: #26273b;
+            border-radius: 4px;
+            height: 286px;
+            left: -0px;
+            overflow: hidden;
+            position: absolute;
+            top: 6px;
+            width: 298px;
+        }
+
+        .data-visualization-page .mrr-breakdown-Frnxmg {
+            background-color: transparent;
+            color: var(--dashdarktemplatewebflowioreports1440x739defaultnero);
+            font-family: var(--font-family-inter);
+            font-size: var(--font-size-xxl);
+            font-style: normal;
+            font-weight: 600;
+            height: auto;
+            left: 16px;
+            letter-spacing: 0.00px;
+            line-height: 22px;
+            position: absolute;
+            text-align: left;
+            top: 15px;
+            white-space: nowrap;
+            width: auto;
+        }
+
+        .data-visualization-page .dropdown-filter-options-Frnxmg {
+            align-items: flex-start;
+            background-color: transparent;
+            display: inline-flex;
+            flex-direction: column;
+            gap: 4px;
+            left: 217px;
+            position: absolute;
+            top: 18px;
+        }
+
+        .data-visualization-page .dropdown-filter-options-OOE3vF {
+            align-items: center;
+            background-color: transparent;
+            border-radius: 6px;
+            display: inline-flex;
+            flex: 0 0 auto;
+            gap: 55px;
+            padding: 3px 3px 3px 6px;
+            position: relative;
+        }
+
+        .data-visualization-page .last-30-days-Tqnjnm {
+            font-weight: 500;
+            line-height: 12.1px;
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .data-visualization-page .frame-1000011539-Frnxmg {
+            align-items: flex-start;
+            background-color: transparent;
+            display: inline-flex;
+            gap: 127px;
+            left: 16px;
+            position: absolute;
+            top: 54px;
+        }
+
+        .data-visualization-page .frame-1000011538-trGCZM {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            gap: 6px;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-1000011536-aFwwKE {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 21px;
+            position: relative;
+        }
+
+        .data-visualization-page .ellipse-230-7Thkwa {
+            background-color: var(--portage);
+            border-radius: 3px;
+            height: 6px;
+            position: relative;
+            width: 6px;
+        }
+
+        .data-visualization-page .ellipse-231-7Thkwa {
+            background-color: #4af26e;
+            border-radius: 3px;
+            height: 6px;
+            position: relative;
+            width: 6px;
+        }
+
+        .data-visualization-page .ellipse-232-7Thkwa {
+            background-color: var(--turquoise-blue);
+            border-radius: 3px;
+            height: 6px;
+            position: relative;
+            width: 6px;
+        }
+
+        .data-visualization-page .ellipse-233-7Thkwa {
+            background-color: #6c79ff;
+            border-radius: 3px;
+            height: 6px;
+            position: relative;
+            width: 6px;
+        }
+
+        .data-visualization-page .ellipse-234-7Thkwa {
+            background-color: var(--decorationpurple);
+            border-radius: 3px;
+            height: 6px;
+            position: relative;
+            width: 6px;
+        }
+
+        .data-visualization-page .ellipse-235-7Thkwa {
+            background-color: var(--purple-pizzazz);
+            position: relative;
+        }
+
+        .data-visualization-page .ellipse-236-7Thkwa {
+            background-color: #fff973;
+            border-radius: 3px;
+            height: 6px;
+            position: relative;
+            width: 6px;
+        }
+
+        .data-visualization-page .frame-1000011535-aFwwKE {
+            align-items: flex-start;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 12px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .new-mrr-f0o0zJ {
+            line-height: normal;
+            width: fit-content;
+        }
+
+        .data-visualization-page .upgrades-f0o0zJ {
+            line-height: normal;
+            width: fit-content;
+        }
+
+        .data-visualization-page .reactivations-f0o0zJ {
+            line-height: normal;
+            width: fit-content;
+        }
+
+        .data-visualization-page .existing-f0o0zJ {
+            line-height: normal;
+            width: fit-content;
+        }
+
+        .data-visualization-page .downgrades-f0o0zJ {
+            line-height: normal;
+            width: fit-content;
+        }
+
+        .data-visualization-page .churn-f0o0zJ {
+            line-height: normal;
+            width: fit-content;
+        }
+
+        .data-visualization-page .arpu-f0o0zJ {
+            line-height: normal;
+            width: fit-content;
+        }
+
+        .data-visualization-page .frame-1000011537-trGCZM {
+            align-items: flex-end;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
+        }
+
+        .data-visualization-page .x14775-ZeXZVr {
+            text-align: right;
+            width: fit-content;
+        }
+
+        .data-visualization-page .x13000-ZeXZVr {
+            text-align: right;
+            width: fit-content;
+        }
+
+        .data-visualization-page .x10000-ZeXZVr {
+            text-align: right;
+            width: fit-content;
+        }
+
+        .data-visualization-page .x10000-bAxgaP {
+            text-align: right;
+            width: fit-content;
+        }
+
+        .data-visualization-page .x775-ZeXZVr {
+            background-color: transparent;
+            letter-spacing: 0.00px;
+            line-height: normal;
+            position: relative;
+            text-align: right;
+            width: fit-content;
+        }
+
+        .data-visualization-page .x100-ZeXZVr {
+            text-align: right;
+            width: fit-content;
+        }
+
+        .data-visualization-page .x10-ZeXZVr {
+            background-color: transparent;
+            letter-spacing: 0.00px;
+            line-height: normal;
+            position: relative;
+            text-align: right;
+            width: fit-content;
+        }
+
+        .data-visualization-page .group-1171275191-Frnxmg {
+            background-color: transparent;
+            height: 17px;
+            left: 16px;
+            position: absolute;
+            top: 253px;
+            width: 270px;
+        }
+
+        .data-visualization-page .net-mrr-Zc7NMl {
+            background-color: transparent;
+            color: #f7f7f7;
+            font-family: var(--font-family-inter);
+            font-size: var(--font-size-xl);
+            font-style: normal;
+            font-weight: 600;
+            height: auto;
+            left: 12px;
+            letter-spacing: 0.00px;
+            line-height: normal;
+            position: absolute;
+            text-align: left;
+            top: 0px;
+            width: auto;
+        }
+
+        .data-visualization-page .x100000-Zc7NMl {
+            background-color: transparent;
+            color: #f7f7f7;
+            font-family: var(--font-family-inter);
+            font-size: var(--font-size-xl);
+            font-style: normal;
+            font-weight: 700;
+            height: auto;
+            left: 198px;
+            letter-spacing: 0.00px;
+            line-height: normal;
+            position: absolute;
+            text-align: right;
+            top: 0px;
+            width: auto;
+        }
+
+        .data-visualization-page .ellipse-235-Zc7NMl {
+            background-color: var(--salmon-pearl);
+            left: 0px;
+            position: absolute;
+            top: 5px;
+        }
+
+        .data-visualization-page .line-26-Frnxmg {
+            background-color: transparent;
+            height: 1px;
+            left: 0px;
+            object-fit: cover;
+            position: absolute;
+            top: 244px;
+            width: 298px;
+        }
+
+        .data-visualization-page .polygon-1-rSmVCQ {
+            background-color: transparent;
+            height: 9px;
+            left: 144px;
+            position: absolute;
+            top: 0px;
+            width: 10px;
+        }
+
+        .data-visualization-page .a-down {
+            background-color: transparent;
+            height: 12px;
+            position: relative;
+            width: 12px;
+        }
+
+        .data-visualization-page .all-icon {
+            background-color: transparent;
+            position: relative;
+        }
+
+        .data-visualization-page .analysis {
+            align-items: flex-start;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 8px;
+            position: relative;
+        }
+
+        .data-visualization-page .arpu {
+            background-color: transparent;
+            color: var(--greye0e1ec);
+            font-style: normal;
+            font-weight: 500;
+            position: relative;
+            text-align: left;
+        }
+
+        .data-visualization-page .bottom-menu-buttons {
+            align-items: center;
+            background-color: transparent;
+            border-radius: 4px;
+            display: flex;
+            flex: 0 0 auto;
+            padding: 4.5px 8px;
+            position: relative;
+            width: 187px;
+        }
+
+        .data-visualization-page .churn {
+            background-color: transparent;
+            color: var(--greye0e1ec);
+            font-style: normal;
+            font-weight: 500;
+            position: relative;
+            text-align: left;
+        }
+
+        .data-visualization-page .divflex {
+            align-items: center;
+            align-self: stretch;
+            background-color: transparent;
+            display: flex;
+            gap: 21px;
+            position: relative;
+            width: 97px;
+        }
+
+        .data-visualization-page .divw-node-_9745c905 {
+            align-items: flex-start;
+            background-color: var(--uifile-background);
+            border: 1px solid;
+            border-color: var(--uidivider);
+            border-radius: 8px;
+            display: flex;
+            gap: 12px;
+            height: 69px;
+            padding: 20px 20.5px 20.5px 24px;
+            position: relative;
+            width: 276px;
+        }
+
+        .data-visualization-page .downgrades {
+            background-color: transparent;
+            color: var(--greye0e1ec);
+            font-style: normal;
+            font-weight: 500;
+            position: relative;
+            text-align: left;
+        }
+
+        .data-visualization-page .ellipse-235 {
+            border-radius: 3px;
+            height: 6px;
+            width: 6px;
+        }
+
+        .data-visualization-page .existing {
+            background-color: transparent;
+            color: var(--greye0e1ec);
+            font-style: normal;
+            font-weight: 500;
+            position: relative;
+            text-align: left;
+        }
+
+        .data-visualization-page .frame-1000002238 {
+            align-items: center;
+            background-color: transparent;
+            flex: 0 0 auto;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-1000002242 {
+            align-self: stretch;
+            background-color: transparent;
+            display: flex;
+            flex: 0 0 auto;
+            position: relative;
+            width: 100%;
+        }
+
+        .data-visualization-page .frame-1000002243 {
+            align-items: center;
+            align-self: stretch;
+            background-color: transparent;
+            display: flex;
+            flex: 0 0 auto;
+            position: relative;
+            width: 100%;
+        }
+
+        .data-visualization-page .frame-1000002323 {
+            align-items: flex-end;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 4px;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-1000002329 {
+            align-items: center;
+            background-color: transparent;
+            display: flex;
+            flex: 1;
+            flex-grow: 1;
+            gap: 10px;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-1000002668 {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            gap: 6px;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-285 {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            gap: 2px;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-293 {
+            align-items: center;
+            background-color: transparent;
+            display: inline-flex;
+            flex: 0 0 auto;
+            gap: 4px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-visualization-page .frame-60 {
+            align-items: flex-start;
+            background-color: transparent;
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            flex-grow: 1;
+            position: relative;
+        }
+
+        .data-visualization-page .import-issues {
+            background-color: transparent;
+            color: var(--greyeeeffc);
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+            margin-top: -1.00px;
+            position: relative;
+            text-align: left;
+            width: fit-content;
+        }
+
+        .data-visualization-page .inbox {
+            background-color: transparent;
+            color: var(--greyd2d3e0);
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+            margin-top: -1.00px;
+            position: relative;
+            text-align: left;
+            width: fit-content;
+        }
+
+        .data-visualization-page .label-dots {
+            border: 1px solid;
+            border-radius: 122.22px;
+            overflow: hidden;
+        }
+
+        .data-visualization-page .last-30-days {
+            background-color: transparent;
+            color: var(--greyd2d3e0);
+            font-style: normal;
+            margin-top: -1.00px;
+            position: relative;
+            width: fit-content;
+        }
+
+        .data-visualization-page .line-6 {
+            background-color: transparent;
+            flex: 1;
+            flex-grow: 1;
+            height: 1px;
+            position: relative;
+        }
+
+        .data-visualization-page .menu-buttons {
+            align-items: center;
+            border-radius: 4px;
+            display: flex;
+            flex: 0 0 auto;
+            gap: 10px;
+            position: relative;
+            width: 179px;
+        }
+
+        .data-visualization-page .new-mrr {
+            background-color: transparent;
+            color: var(--greye0e1ec);
+            font-style: normal;
+            font-weight: 500;
+            margin-top: -1.00px;
+            position: relative;
+            text-align: left;
+        }
+
+        .data-visualization-page .reactivations {
+            background-color: transparent;
+            color: var(--greye0e1ec);
+            font-style: normal;
+            font-weight: 500;
+            position: relative;
+            text-align: left;
+        }
+
+        .data-visualization-page .rectangle-5558 {
+            background-color: var(--salmon-pearl);
+            left: 0px;
+            position: absolute;
+            top: 0px;
+            width: 26px;
+        }
+
+        .data-visualization-page .rectangle-5559 {
+            background-color: var(--portage);
+            left: 0px;
+            position: absolute;
+            width: 26px;
+        }
+
+        .data-visualization-page .rectangle-5560 {
+            background-color: var(--screamin-green);
+            left: 0px;
+            position: absolute;
+            width: 26px;
+        }
+
+        .data-visualization-page .rectangle-5561 {
+            background-color: var(--turquoise-blue);
+            left: 0px;
+            position: absolute;
+            width: 26px;
+        }
+
+        .data-visualization-page .rectangle-5562 {
+            background-color: var(--royal-blue);
+            left: 0px;
+            position: absolute;
+            width: 26px;
+        }
+
+        .data-visualization-page .rectangle-5563 {
+            background-color: var(--decorationpurple);
+            left: 0px;
+            position: absolute;
+            width: 26px;
+        }
+
+        .data-visualization-page .rectangle-5564 {
+            background-color: var(--purple-pizzazz);
+            left: 0px;
+            position: absolute;
+            width: 26px;
+        }
+
+        .data-visualization-page .sidebar-banner {
+            align-items: flex-start;
+            background-color: var(--grey1d1e2b);
+            border: 1px solid;
+            border-color: var(--grey292b41);
+            border-radius: 4px;
+            box-shadow: 0px 2px 4px #0000001a;
+            display: flex;
+            flex: 0 0 auto;
+            gap: 8px;
+            position: relative;
+            width: 191px;
+        }
+
+        .data-visualization-page .simple-dropdown {
+            align-items: center;
+            display: inline-flex;
+            flex: 0 0 auto;
+            gap: 5px;
+            padding: 4.5px 8px;
+            position: relative;
+        }
+
+        .data-visualization-page .status {
+            background-color: transparent;
+            color: var(--greyeeeffc);
+            font-style: normal;
+            font-weight: 500;
+            line-height: 12.1px;
+            margin-top: -1.00px;
+            position: relative;
+            text-align: left;
+            white-space: nowrap;
+            width: fit-content;
+        }
+
+        .data-visualization-page .total-mrr {
+            background-color: transparent;
+            color: var(--greye0e1ec);
+            font-style: normal;
+            font-weight: 500;
+            margin-top: -1.00px;
+            position: relative;
+            text-align: left;
+        }
+
+        .data-visualization-page .upgrades {
+            background-color: transparent;
+            color: var(--greye0e1ec);
+            font-style: normal;
+            font-weight: 500;
+            position: relative;
+            text-align: left;
+        }
+
+        .data-visualization-page .x01 {
+            background-color: transparent;
+            color: var(--grey858699);
+            font-style: normal;
+            font-weight: 400;
+            line-height: 13.2px;
+            margin-top: -1.00px;
+            position: relative;
+            text-align: left;
+            white-space: nowrap;
+            width: fit-content;
+        }
+
+        .data-visualization-page .x100 {
+            background-color: transparent;
+            letter-spacing: 0.00px;
+            line-height: normal;
+            position: relative;
+        }
+
+        .data-visualization-page .x10000 {
+            background-color: transparent;
+            letter-spacing: 0.00px;
+            line-height: normal;
+            position: relative;
+        }
+
+        .data-visualization-page .x13000 {
+            background-color: transparent;
+            letter-spacing: 0.00px;
+            line-height: normal;
+            position: relative;
+        }
+
+        .data-visualization-page .x14775 {
+            background-color: transparent;
+            letter-spacing: 0.00px;
+            line-height: normal;
+            margin-top: -1.00px;
+            position: relative;
+        }
+    </style>
+    <script id="anime-js-script" src="https://cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"
+        integrity="sha256-98Q574VkbV+PkxXCKSgL6jVq9mrVbS7uCdA+vt0sLS8=" crossorigin="anonymous"></script>
+    <script id="imgloaded-js-script" src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+    <style id="mttstyle">
+        .tippy-box[data-theme~="custom"] {
+            font-size: 14px !important;
+            max-width: 400px !important;
+            text-align: center !important;
+            backdrop-filter: blur(4px) !important;
+            background-color: #000000b8 !important;
+            color: #ffffffff !important;
+            overflow-wrap: break-word !important;
+        }
+
+        .tippy-box[data-theme~='custom'][data-placement^='top']>.tippy-arrow::before {
+            border-top-color: #000000b8 !important;
+        }
+
+        .tippy-box[data-theme~='custom'][data-placement^='bottom']>.tippy-arrow::before {
+            border-bottom-color: #000000b8 !important;
+        }
+
+        .tippy-box[data-theme~='custom'][data-placement^='left']>.tippy-arrow::before {
+            border-left-color: #000000b8 !important;
+        }
+
+        .tippy-box[data-theme~='custom'][data-placement^='right']>.tippy-arrow::before {
+            border-right-color: #000000b8 !important;
+        }
+
+        .ocr_text_div {
+            position: absolute;
+            opacity: 0.7;
+            font-size: calc(100% + 1cqw);
+            overflow: hidden;
+            border: 2px solid CornflowerBlue;
+            color: transparent !important;
+            background: none !important;
+        }
+    </style>
+    <style id="action-links-styles">
+        @import url('https://fonts.googleapis.com/css2?family=Mulish&display=swap');
+
+        #anima-interface {
+            transition: all 0.5s ease-in-out;
+        }
+
+        #anima-watermark {
+            transition: all 0.5s ease-in-out;
+            display: none;
+        }
+
+        #anima-watermark-link {
+            position: fixed;
+            bottom: 20px;
+            height: 30px;
+            border-radius: 1000px;
+            background: #3B3B3B;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            user-select: none;
+            transition: width 0.25s cubic-bezier(0.175, 0.885, 0.320, 1.275);
+            text-decoration: none;
+            color: #fff;
+            padding: 8px 16px 8px 11px;
+            font-family: Mulish, sans-serif;
+            font-size: 12px;
+        }
+
+        #anima-watermark-link .text {
+            margin-left: 6px;
+        }
+
+        .omniview-anima-action-links .link {
+            height: 30px;
+            width: 30px;
+            border-radius: 1000px;
+            background: #3B3B3B;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            user-select: none;
+            transition: width 0.25s cubic-bezier(0.175, 0.885, 0.320, 1.275);
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .omniview-anima-action-links #comment-link .text,
+        .omniview-anima-action-links #code-link .text {
+            display: none;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+
+        .omniview-anima-action-links #comment-link:hover,
+        .omniview-anima-action-links #code-link:hover {
+            width: 105px;
+        }
+
+        .omniview-anima-action-links #comment-link.pop-active,
+        .omniview-anima-action-links #code-link.pop-active {
+            width: 105px;
+            background: #FF6250;
+        }
+
+        .omniview-anima-action-links #comment-link.pop-active .text,
+        .omniview-anima-action-links #code-link.pop-active .text {
+            display: block
+        }
+
+        .omniview-anima-action-links #comment-link:hover .text,
+        .omniview-anima-action-links #code-link:hover .text {
+            display: block;
+        }
+
+        .link.navigation {
+            position: fixed;
+            left: 50%;
+            transform: translateX(-50%);
+            width: auto;
+            height: 32px;
+            color: #fff;
+            font-size: 12px;
+            cursor: default;
+            padding: 0 5px;
+        }
+
+        .link.navigation .icon {
+            margin: 0 6px;
+            fill: none;
+            stroke: currentColor;
+            cursor: pointer;
+        }
+
+        .link.navigation .icon.disabled {
+            opacity: 0.5;
+            cursor: default;
+        }
+
+
+        .link.navigation .home-icon {
+            margin-left: 6px;
+            fill: currentColor;
+            stroke: currentColor;
+            cursor: pointer;
+        }
+
+        .omniview-anima-action-links .restart {
+            height: 30px;
+            padding: 0 12px;
+            background: #3B3B3B;
+            border-radius: 1000px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #f1f1f1;
+            font-size: 12px;
+        }
+
+        .omniview-anima-action-links {
+            display: flex;
+            align-items: center;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-family: Mulish, sans-serif;
+            transition: all 0.5s ease-in-out;
+            opacity: 1;
+        }
+
+        .omniview-anima-action-links>*+* {
+            margin-right: 0;
+            margin-left: 10px;
+        }
+
+        .idle {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #popoverOpener {
+            position: absolute;
+            left: 50%;
+            margin-left: -10vw;
+            text-align: center;
+            top: 45vh;
+            width: 20vw;
+        }
+
+
+        .popover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1060;
+            display: none;
+            font-family: "sans-serif";
+            font-size: 14px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+        }
+
+        .popover.top {
+            margin-top: -12px
+        }
+
+        .popover.right {
+            margin-left: 10px
+        }
+
+        .popover.bottom {
+            margin-top: 10px
+        }
+
+        .popover.left {
+            margin-left: -10px
+        }
+
+        .popover-title {
+            padding: 8px 14px;
+            margin: 0;
+            font-size: 14px;
+            background-color: #f7f7f7;
+            border-bottom: 1px solid #ebebeb;
+            border-radius: 5px 5px 0 0
+        }
+
+        .popover-content {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            overflow: hidden;
+            font-family: Mulish, sans-serif;
+        }
+
+
+
+        .popover>.arrow,
+        .popover>.arrow:after {
+            position: absolute;
+            display: block;
+            width: 0;
+            height: 0;
+            border-color: transparent;
+            border-style: solid
+        }
+
+        .popover>.arrow {
+            border-width: 11px
+        }
+
+        .popover>.arrow:after {
+            content: "";
+            border-width: 10px
+        }
+
+        .popover.top>.arrow {
+            bottom: -11px;
+            left: 50%;
+            margin-left: -11px;
+            border-top-color: #999;
+            border-top-color: rgba(0, 0, 0, .25);
+            border-bottom-width: 0
+        }
+
+        .popover.top>.arrow:after {
+            bottom: 1px;
+            margin-left: -10px;
+            content: " ";
+            border-top-color: #fff;
+            border-bottom-width: 0
+        }
+
+        .popover.right>.arrow {
+            top: 50%;
+            left: -11px;
+            margin-top: -11px;
+            border-right-color: #999;
+            border-right-color: rgba(0, 0, 0, .25);
+            border-left-width: 0
+        }
+
+        .popover.right>.arrow:after {
+            bottom: -10px;
+            left: 1px;
+            content: " ";
+            border-right-color: #fff;
+            border-left-width: 0
+        }
+
+        .popover.bottom>.arrow {
+            top: -11px;
+            left: 50%;
+            margin-left: -11px;
+            border-top-width: 0;
+            border-bottom-color: #999;
+            border-bottom-color: rgba(0, 0, 0, .25)
+        }
+
+        .popover.bottom>.arrow:after {
+            top: 1px;
+            margin-left: -10px;
+            content: " ";
+            border-top-width: 0;
+            border-bottom-color: #fff
+        }
+
+        .popover.left>.arrow {
+            top: 50%;
+            right: -11px;
+            margin-top: -11px;
+            border-right-width: 0;
+            border-left-color: #999;
+            border-left-color: rgba(0, 0, 0, .25)
+        }
+
+        .popover.left>.arrow:after {
+            right: 1px;
+            bottom: -10px;
+            content: " ";
+            border-right-width: 0;
+            border-left-color: #fff
+        }
+
+
+
+        #anima-comment-popover,
+        #anima-code-popover {
+            background: #333333;
+            color: #fff;
+        }
+
+        #anima-comment-popover.top>.arrow,
+        #anima-comment-popover.top>.arrow:after,
+        #anima-code-popover.top>.arrow:after,
+        #anima-code-popover.top>.arrow {
+            border-top-color: #333;
+        }
+
+        #anima-comment-popover .btn,
+        #anima-code-popover .btn {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding: 6px 20px;
+            background: #FF6250;
+            color: #fff;
+            border-radius: 100px;
+            width: max-content;
+            text-decoration: none;
+        }
+
+        @media screen and (max-width: 550px) {
+            #anima-watermark-link {
+                padding: 6px !important;
+            }
+
+            #anima-watermark-link .text {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body style="margin: 0px; background: rgb(24, 25, 33); overflow-x: hidden;" dark-scroll="">
+    <input type="hidden" id="anPageName" name="page" value="data-visualization-page">
+    <div class="container-center-horizontal">
+
+        <div class="data-visualization-page screen " data-id="1:2094">
+            <div class="rectangle-1-58xVYz" data-id="1:2095"></div>
+            <div class="sidebar-menu-58xVYz" data-id="1:2096">
+                <div class="frame-1000002334-8sJYCd" data-id="I1:2096;1481:256494">
+                    <div class="top-FMpbpU" data-id="I1:2096;525:7437">
+                        <div class="frame-68-XKxXLe" data-id="I1:2096;525:7438">
+                            <div class="frame-1000002327-xiMyaV" data-id="I1:2096;1481:171305">
+                                <div class="avater-TMJuw8" data-id="I1:2096;1481:171306">
+                                    <div class="workspace-button-IWMDg0" data-id="I1:2096;1481:171307">
+                                        <div class="frame-65-d1xdIr" data-id="I1:2096;1481:171307;34:521">
+                                            <div class="mw-bMORF8 microregular" data-id="I1:2096;1481:171307;34:520">MW
+                                            </div>
+                                        </div>
+                                        <div class="my-workspace-d1xdIr smallmedium"
+                                            data-id="I1:2096;1481:171307;34:519">My Workspace</div>
+                                    </div>
+                                    <div class="avatar-button-IWMDg0" data-id="I1:2096;1481:171308">
+                                        <div class="avatar-sQnTvL"
+                                            data-id="I1:2096;1481:171308;109:6160-101fdd8c-9442-4fe9-9db5-003592095f26">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="search-button-TMJuw8" data-id="I1:2096;1481:171309"><img
+                                        class="all-icon-SJ0Zoe all-icon" data-id="I1:2096;1481:171309;34:412"
+                                        src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon.svg"
+                                        anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon.svg"
+                                        alt="All-icon"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nav-FMpbpU" data-id="I1:2096;1481:248447">
+                        <div class="body-1-Lpq8S9" data-id="I1:2096;1481:137868">
+                            <div class="menu-buttons-cbU0m8 menu-buttons" data-id="I1:2096;1481:137869">
+                                <div class="frame-1000002330-3j4QzX" data-id="I1:2096;1481:137869;1484:155327"><img
+                                        class="all-icon-zvROje all-icon" data-id="I1:2096;1481:137869;28:308"
+                                        src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-1.svg"
+                                        anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-1.svg"
+                                        alt="All-icon">
+                                    <div class="inbox smallmedium" data-id="I1:2096;1481:137869;28:309">Dashboard</div>
+                                </div>
+                            </div>
+
+                            <div class="analysis" data-id="I1:2096;1481:137870">
+                                <div class="menu-buttons-7yLxQ7 menu-buttons" data-id="I1:2096;1481:137871">
+                                    <div class="frame-1000002329" data-id="I1:2096;1481:137871;1484:149026"><img
+                                            class="all-icon-bwof0J all-icon" data-id="I1:2096;1481:137871;26:321"
+                                            src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-2.svg"
+                                            anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-2.svg"
+                                            alt="All-icon">
+                                        <div class="inbox smallmedium" data-id="I1:2096;1481:137871;26:324">Analysis
+                                        </div>
+                                    </div><img class="a-down" data-id="I1:2096;1481:137871;1484:143361"
+                                        src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/a-down.svg"
+                                        anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/a-down.svg"
+                                        alt="a-down">
+                                </div>
+                                <div class="frame-1000002323" data-id="I1:2096;1481:137872">
+                                    <article class="menu-buttons-zEdgc4 menu-buttons" data-id="I1:2096;1481:137873"><img
+                                            class="all-icon-my8Lum all-icon" data-id="I1:2096;1481:137873;28:363"
+                                            src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-3.svg"
+                                            anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-3.svg"
+                                            alt="All-icon">
+                                        <div class="inbox smallmedium" data-id="I1:2096;1481:137873;28:364">User
+                                            Analysis</div>
+                                    </article>
+                                    <article class="menu-buttons-sk0tZu menu-buttons" data-id="I1:2096;1481:137874"><img
+                                            class="all-icon-ZBelCp all-icon" data-id="I1:2096;1481:137874;28:363"
+                                            src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-3.svg"
+                                            anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-3.svg"
+                                            alt="All-icon">
+                                        <div class="inbox smallmedium" data-id="I1:2096;1481:137874;28:364">Content
+                                            Analysis</div>
+                                    </article>
+                                    <article class="menu-buttons-5yPryl menu-buttons" data-id="I1:2096;1481:137875"><img
+                                            class="all-icon-rZuWK1 all-icon" data-id="I1:2096;1481:137875;28:363"
+                                            src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-3.svg"
+                                            anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-3.svg"
+                                            alt="All-icon">
+                                        <div class="inbox smallmedium" data-id="I1:2096;1481:137875;28:364">Survey
+                                            Report</div>
+                                    </article>
+                                </div>
+                            </div>
+                            <div class="managment-cbU0m8" data-id="I1:2096;1481:137876">
+                                <div class="menu-buttons-BowiKl menu-buttons" data-id="I1:2096;1481:137877">
+                                    <div class="frame-1000002329" data-id="I1:2096;1481:137877;1484:149026"><img
+                                            class="all-icon-q7AvXm all-icon" data-id="I1:2096;1481:137877;26:321"
+                                            src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-2.svg"
+                                            anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-2.svg"
+                                            alt="All-icon">
+                                        <div class="inbox smallmedium" data-id="I1:2096;1481:137877;26:324">Management
+                                        </div>
+                                    </div><img class="a-down" data-id="I1:2096;1481:137877;1484:143361"
+                                        src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/a-down-1.svg"
+                                        anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/a-down-1.svg"
+                                        alt="a-down">
+                                </div>
+                                <div class="frame-1000002324-BowiKl" data-id="I1:2096;165:115362">
+                                    <div class="menu-buttons-xOHXA3 menu-buttons" data-id="I1:2096;165:115363"><img
+                                            class="all-icon-cNNmrS all-icon" data-id="I1:2096;165:115363;28:363"
+                                            src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-3.svg"
+                                            anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-3.svg"
+                                            alt="All-icon">
+                                        <div class="inbox smallmedium" data-id="I1:2096;165:115363;28:364">Content
+                                            Upload</div>
+                                    </div>
+                                </div>
+                                <div class="frame-1000002325-BowiKl" data-id="I1:2096;471:106210">
+                                    <div class="menu-buttons-MvsS4j menu-buttons" data-id="I1:2096;471:106211"><img
+                                            class="all-icon-1Kmg59 all-icon" data-id="I1:2096;471:106211;28:363"
+                                            src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-3.svg"
+                                            anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-3.svg"
+                                            alt="All-icon">
+                                        <div class="inbox-1Kmg59 inbox smallmedium" data-id="I1:2096;471:106211;28:364">
+                                            Content Management</div>
+                                    </div>
+                                </div>
+                                <div class="frame-1000002326-BowiKl" data-id="I1:2096;471:196493">
+                                    <div class="menu-buttons-gxxivm menu-buttons" data-id="I1:2096;471:196494"><img
+                                            class="all-icon-EbxZw0 all-icon" data-id="I1:2096;471:196494;28:363"
+                                            src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-3.svg"
+                                            anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-3.svg"
+                                            alt="All-icon">
+                                        <div class="inbox smallmedium" data-id="I1:2096;471:196494;28:364">Category
+                                            &amp; Tags</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="analysis" data-id="I1:2096;1481:137880">
+                                <div class="menu-buttons-OIpQtw menu-buttons" data-id="I1:2096;1481:137881">
+                                    <div class="frame-1000002329" data-id="I1:2096;1481:137881;1484:149026"><img
+                                            class="all-icon-2sZxT0 all-icon" data-id="I1:2096;1481:137881;26:321"
+                                            src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-2.svg"
+                                            anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-2.svg"
+                                            alt="All-icon">
+                                        <div class="inbox smallmedium" data-id="I1:2096;1481:137881;26:324">Affiliate
+                                        </div>
+                                    </div><img class="a-down" data-id="I1:2096;1481:137881;1484:143361"
+                                        src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/a-down-2.svg"
+                                        anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/a-down-2.svg"
+                                        alt="a-down">
+                                </div>
+                                <div class="frame-1000002323" data-id="I1:2096;1481:137882">
+                                    <article class="menu-buttons-qxoJtc menu-buttons" data-id="I1:2096;1481:137883"><img
+                                            class="all-icon-xqFMt3 all-icon" data-id="I1:2096;1481:137883;28:363"
+                                            src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-3.svg"
+                                            anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-3.svg"
+                                            alt="All-icon">
+                                        <div class="inbox smallmedium" data-id="I1:2096;1481:137883;28:364">Analytics
+                                        </div>
+                                    </article>
+                                    <article class="menu-buttons-SJeDal menu-buttons" data-id="I1:2096;1481:137884"><img
+                                            class="all-icon-WdQiKj all-icon" data-id="I1:2096;1481:137884;28:363"
+                                            src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-12.svg"
+                                            anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-12.svg"
+                                            alt="All-icon">
+                                        <div class="inbox smallmedium" data-id="I1:2096;1481:137884;28:364">Campaign
+                                        </div>
+                                    </article>
+                                    <article class="menu-buttons-x2KsRu menu-buttons" data-id="I1:2096;1481:137885"><img
+                                            class="all-icon-xUSR3V all-icon" data-id="I1:2096;1481:137885;28:363"
+                                            src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-3.svg"
+                                            anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-3.svg"
+                                            alt="All-icon">
+                                        <div class="inbox smallmedium" data-id="I1:2096;1481:137885;28:364">Affiliate
+                                        </div>
+                                    </article>
+                                    <article class="menu-buttons-ANUWdU menu-buttons" data-id="I1:2096;1481:137886"><img
+                                            class="all-icon-15YE1j all-icon" data-id="I1:2096;1481:137886;28:363"
+                                            src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-14.svg"
+                                            anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-14.svg"
+                                            alt="All-icon">
+                                        <div class="inbox-15YE1j inbox smallmedium"
+                                            data-id="I1:2096;1481:137886;28:364">Sales &amp; Commissions</div>
+                                    </article>
+                                    <article class="menu-buttons-rZds8Q menu-buttons" data-id="I1:2096;1481:137887"><img
+                                            class="all-icon-QBqYZi all-icon" data-id="I1:2096;1481:137887;28:363"
+                                            src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-3.svg"
+                                            anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-3.svg"
+                                            alt="All-icon">
+
+                                        <div class="inbox smallmedium" data-id="I1:2096;1481:137887;28:364">Setting
+                                        </div>
+                                    </article>
+                                </div>
+                            </div>
+                            <div class="menu-buttons-FLjBat menu-buttons" data-id="I1:2096;1481:137888">
+                                <div class="frame-1000002329" data-id="I1:2096;1481:137888;1484:149026"><img
+                                        class="all-icon-AQZxe0 all-icon" data-id="I1:2096;1481:137888;26:321"
+                                        src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-16.svg"
+                                        anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-16.svg"
+                                        alt="All-icon">
+                                    <div class="inbox smallmedium" data-id="I1:2096;1481:137888;26:324">API Management
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="frame-1000002332-Lpq8S9" data-id="I1:2096;1481:244746">
+                            <div class="frame-1000002337-A8PBPx" data-id="I1:2096;688:136665">
+                                <div class="invite-fEqRXH" data-id="I1:2096;525:7432">
+                                    <article class="bottom-menu-buttons-TT6NQ3 bottom-menu-buttons"
+                                        data-id="I1:2096;525:7433"><img class="plus-5O2ily"
+                                            data-id="I1:2096;525:7433;28:891"
+                                            src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/plus.svg"
+                                            anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/plus.svg"
+                                            alt="plus">
+                                        <div class="invite-people-5O2ily miniregular" data-id="I1:2096;525:7433;28:872">
+                                            Invite people</div>
+                                    </article>
+                                    <article class="bottom-menu-buttons-pn69vc bottom-menu-buttons"
+                                        data-id="I1:2096;525:7434"><img class="book-aa31cm"
+                                            data-id="I1:2096;525:7434;28:895"
+                                            src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/book.svg"
+                                            anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/book.svg"
+                                            alt="book">
+                                        <div class="help-support-aa31cm miniregular" data-id="I1:2096;525:7434;28:876">
+                                            Help &amp; Support</div>
+                                    </article>
+                                </div>
+                                <div class="sidebar-banner-fEqRXH sidebar-banner" data-id="I1:2096;688:130591">
+                                    <div class="frame-60" data-id="I1:2096;688:130591;28:963">
+                                        <div class="import-issues minimedium" data-id="I1:2096;688:130591;28:960">App
+                                            version 3.1</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sidebar-banner-A8PBPx sidebar-banner" data-id="I1:2096;1481:169445"><img
+                                    class="all-icon-xYPDsq all-icon" data-id="I1:2096;1481:169445;28:939"
+                                    src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-17.svg"
+                                    anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-17.svg"
+                                    alt="All-icon">
+                                <div class="frame-60" data-id="I1:2096;1481:169445;28:963">
+                                    <div class="import-issues minimedium" data-id="I1:2096;1481:169445;28:960">Import
+                                        Issues</div>
+                                    <div class="frame-59-nxs460" data-id="I1:2096;1481:169445;28:962">
+                                        <p class="use-our-migration-as-b0wP5a microregular"
+                                            data-id="I1:2096;1481:169445;28:961">Use our Migration Assistant to copy
+                                            issues from another service.</p>
+                                    </div>
+                                    <div class="buttons-nxs460" data-id="I1:2096;1481:169445;28:958">
+                                        <div class="try-now-uxdi0k minimedium"
+                                            data-id="I1:2096;1481:169445;28:958;28:945">Try Now →</div>
+                                    </div>
+                                </div>
+                                <div class="close-button-xYPDsq" data-id="I1:2096;1481:169445;28:994"><img
+                                        class="all-icon-mwo1Yy all-icon" data-id="I1:2096;1481:169445;28:994;28:982"
+                                        src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-18.svg"
+                                        anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-18.svg"
+                                        alt="All-icon"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="frame-309-58xVYz" data-id="1:2097">
+                <div class="frame-1000002378-JOSxv8" data-id="1:2098">
+                    <div class="revenue-eKhxY0" data-id="1:2099">Revenue</div>
+                    <div class="frame-302-eKhxY0" data-id="1:2100">
+                        <div class="frame-301-Yq2mOG" data-id="1:2101">
+                            <article class="simple-dropdown-KtFXAQ simple-dropdown" data-id="1:2102">
+                                <div class="status micromedium" data-id="I1:2102;86:2748">MRR</div>
+                            </article>
+                            <article class="simple-dropdown-GOvK4c simple-dropdown" data-id="1:2103">
+                                <div class="status micromedium" data-id="I1:2103;86:2748">ARPU</div>
+                            </article>
+                        </div>
+                    </div>
+                    <div class="dropdown-filter-options-eKhxY0" data-id="1:2104">
+                        <div class="dropdown-filter-options-4HYumZ" data-id="I1:2104;333:10108">
+                            <div class="frame-77-Uxzlj2" data-id="I1:2104;333:10109"><img
+                                    class="all-icon-Qetvmw all-icon" data-id="I1:2104;333:10110"
+                                    src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-19.svg"
+                                    anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/all-icon-19.svg"
+                                    alt="All-icon">
+                                <div class="jan-2-2024-Qetvmw smallregular" data-id="I1:2104;333:10111">Jan 2, 2024
+                                </div>
+                            </div>
+                            <div class="frame-285" data-id="I1:2104;333:10138">
+                                <div class="last-30-days-GdYb9c last-30-days smallregular" data-id="I1:2104;333:10114">
+                                    Last 30 Days</div><img class="dropdown-filter-optionsa-down-GdYb9c"
+                                    data-id="I1:2104;333:10119"
+                                    src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/-dropdown-filter-options-a-down.svg"
+                                    anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/-dropdown-filter-options-a-down.svg"
+                                    alt="Dropdown Filter Options/a-down">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="divsmall-details-card-grid-JOSxv8" data-id="1:2105">
+                    <div class="frame-1171275154-ix6Att" data-id="1:2106">
+                        <div class="divw-node-_9745c905" data-id="1:2107">
+                            <div class="divflex" data-id="1:2109">
+                                <div class="frame-1000002668" data-id="1:2111">
+                                    <div class="total-mrr-Y7tBDX valign-text-middle total-mrr minimedium"
+                                        data-id="1:2112">Total MRR</div>
+                                </div>
+                            </div>
+                            <div class="x14775-h2wnS5 valign-text-middle x14775 inter-semi-bold-white-20px"
+                                data-id="1:2113">$14,775</div>
+                        </div>
+                        <div class="divw-node-_9745c905" data-id="1:2114">
+                            <div class="divflex" data-id="1:2116">
+                                <div class="frame-1000002668" data-id="1:2118">
+                                    <div class="arpu-XCdIWy valign-text-middle arpu minimedium" data-id="1:2119">ARPU
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="x10000-HTaFKJ valign-text-middle x10000 inter-semi-bold-white-20px"
+                                data-id="1:2120">$10,000</div>
+                        </div>
+                    </div>
+                    <div class="frame-1171275151-ix6Att" data-id="1:2121">
+                        <div class="divw-node-_9745c905" data-id="1:2122">
+                            <div class="divflex" data-id="1:2124">
+                                <div class="frame-1000002668" data-id="1:2126">
+                                    <div class="new-mrr-xuxGNf valign-text-middle new-mrr minimedium" data-id="1:2127">
+                                        New MRR</div>
+                                </div>
+                            </div>
+                            <div class="x14775-JxyGnt valign-text-middle x14775 inter-semi-bold-white-20px"
+                                data-id="1:2128">$14,775</div>
+                        </div>
+                        <div class="divw-node-_9745c905" data-id="1:2129">
+                            <div class="divflex" data-id="1:2131">
+                                <div class="frame-1000002668" data-id="1:2133">
+                                    <div class="reactivations-Hyf2Ao valign-text-middle reactivations minimedium"
+                                        data-id="1:2134">Reactivations</div>
+                                </div>
+                            </div>
+                            <div class="x10000-71t0AV valign-text-middle x10000 inter-semi-bold-white-20px"
+                                data-id="1:2135">$10,000</div>
+                        </div>
+                    </div>
+                    <div class="frame-1171275152-ix6Att" data-id="1:2136">
+                        <div class="divw-node-_9745c905" data-id="1:2137">
+                            <div class="divflex" data-id="1:2139">
+                                <div class="frame-1000002668" data-id="1:2141">
+                                    <div class="upgrades-NLQkmU valign-text-middle upgrades minimedium"
+                                        data-id="1:2142">Upgrades</div>
+                                </div>
+                            </div>
+                            <div class="x13000-Ogiczn valign-text-middle x13000 inter-semi-bold-white-20px"
+                                data-id="1:2143">$13,000</div>
+                        </div>
+                        <div class="divw-node-_9745c905" data-id="1:2144">
+                            <div class="divflex" data-id="1:2146">
+                                <div class="frame-1000002668" data-id="1:2148">
+                                    <div class="existing-i3F9cM valign-text-middle existing minimedium"
+                                        data-id="1:2149">Existing</div>
+                                </div>
+                            </div>
+                            <div class="x10000-75sW9N valign-text-middle x10000 inter-semi-bold-white-20px"
+                                data-id="1:2150">$10,000</div>
+                        </div>
+                    </div>
+                    <div class="frame-1171275153-ix6Att" data-id="1:2151">
+
+                        <div class="divw-node-_9745c905" data-id="1:2152">
+                            <div class="divflex" data-id="1:2154">
+                                <div class="frame-1000002668" data-id="1:2156">
+                                    <div class="downgrades-zcNvox valign-text-middle downgrades minimedium"
+                                        data-id="1:2157">Downgrades</div>
+                                </div>
+                            </div>
+                            <div class="x755-L9PHTl valign-text-middle inter-semi-bold-white-20px" data-id="1:2158">$755
+                            </div>
+                        </div>
+                        <div class="divw-node-_9745c905" data-id="1:2159">
+                            <div class="divflex" data-id="1:2161">
+                                <div class="frame-1000002668" data-id="1:2163">
+                                    <div class="churn-Qdx7nw valign-text-middle churn minimedium" data-id="1:2164">Churn
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="x100-9qRH0R valign-text-middle x100 inter-semi-bold-white-20px"
+                                data-id="1:2165">$100</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="frame-1000002300-JOSxv8" data-id="1:2166">
+                    <div class="frame-295-lG2uKk" data-id="1:2167">
+                        <div class="label-dots-ycGNKh label-dots" data-id="1:2168"></div>
+                        <div class="total-mrr-ycGNKh total-mrr minimedium" data-id="1:2169">Total MRR</div>
+                    </div>
+                    <div class="frame-296-lG2uKk" data-id="1:2170">
+                        <div class="label-dots-xuZDC0 label-dots" data-id="1:2171"></div>
+                        <div class="new-mrp-xuZDC0 minimedium" data-id="1:2172">New MRP</div>
+                    </div>
+                    <div class="frame-297-lG2uKk" data-id="1:2173">
+                        <div class="label-dots-zSEjNl label-dots" data-id="1:2174"></div>
+                        <div class="reactivations-zSEjNl reactivations minimedium" data-id="1:2175">Reactivations</div>
+                    </div>
+                    <div class="frame-298-lG2uKk" data-id="1:2176">
+                        <div class="label-dots-gtWGBu label-dots" data-id="1:2177"></div>
+                        <div class="upgrades-gtWGBu upgrades minimedium" data-id="1:2178">Upgrades</div>
+                    </div>
+                    <div class="frame-293" data-id="1:2179">
+                        <div class="label-dots-9srHqO label-dots" data-id="1:2180"></div>
+                        <div class="existing-9srHqO existing minimedium" data-id="1:2181">Existing</div>
+                    </div>
+                    <div class="frame-293" data-id="1:2182">
+                        <div class="label-dots-grFd9N label-dots" data-id="1:2183"></div>
+                        <div class="downgrades-grFd9N downgrades minimedium" data-id="1:2184">Downgrades</div>
+                    </div>
+                    <div class="frame-294-lG2uKk" data-id="1:2185">
+                        <div class="label-dots-4Fch89 label-dots" data-id="1:2186"></div>
+                        <div class="churn-4Fch89 churn minimedium" data-id="1:2187">Churn</div>
+                    </div>
+                </div>
+                <div class="frame-1000002242-JOSxv8 frame-1000002242" data-id="1:2188">
+                    <div class="frame-1000002247-YOwmGz" data-id="1:2189">
+                        <div class="frame-1000002238-ePy1sf frame-1000002238" data-id="1:2190">
+                            <div class="x13k-nJeNcI miniregular" data-id="1:2191">13k</div>
+                        </div><img class="line-6" data-id="1:2192"
+                            src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/line-6.svg"
+                            anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/line-6.svg"
+                            alt="Line 6">
+                    </div>
+                    <div class="frame-1000002248-YOwmGz" data-id="1:2193">
+                        <div class="frame-1000002238-VYIb3a frame-1000002238" data-id="1:2194">
+                            <div class="x12k-yn1g01 miniregular" data-id="1:2195">12k</div>
+                        </div><img class="line-6" data-id="1:2196"
+                            src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/line-6.svg"
+                            anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/line-6.svg"
+                            alt="Line 6">
+                    </div>
+                    <div class="frame-1000002249-YOwmGz" data-id="1:2197">
+                        <div class="frame-1000002238-mDc0FD frame-1000002238" data-id="1:2198">
+                            <div class="x11k-DZ6M2S miniregular" data-id="1:2199">11k</div>
+                        </div><img class="line-6" data-id="1:2200"
+                            src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/line-6.svg"
+                            anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/line-6.svg"
+                            alt="Line 6">
+                    </div>
+                    <div class="frame-1000002250-YOwmGz" data-id="1:2201">
+                        <div class="frame-1000002238-EzO38w frame-1000002238" data-id="1:2202">
+                            <div class="x10k-PsbRF3 miniregular" data-id="1:2203">10k</div>
+                        </div><img class="line-6" data-id="1:2204"
+                            src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/line-6.svg"
+                            anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/line-6.svg"
+                            alt="Line 6">
+                    </div>
+                    <div class="frame-1000002251-YOwmGz" data-id="1:2205">
+                        <div class="frame-1000002238-61w1dR frame-1000002238" data-id="1:2206">
+                            <div class="x9k-K1qg4V miniregular" data-id="1:2207">9k</div>
+                        </div><img class="line-6" data-id="1:2208"
+                            src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/line-6.svg"
+                            anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/line-6.svg"
+                            alt="Line 6">
+                    </div>
+                    <div class="frame-1000002252-YOwmGz" data-id="1:2209">
+                        <div class="frame-1000002238-BrXDXm frame-1000002238" data-id="1:2210">
+                            <div class="x8k-0SEqCe miniregular" data-id="1:2211">8k</div>
+                        </div><img class="line-6" data-id="1:2212"
+                            src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/line-6.svg"
+                            anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/line-6.svg"
+                            alt="Line 6">
+                    </div>
+                    <div class="frame-1000002242-YOwmGz frame-1000002242" data-id="1:2213">
+                        <div class="frame-1000002238-DW1YqU frame-1000002238" data-id="1:2214">
+                            <div class="x7k-GTT4xV miniregular" data-id="1:2215">7k</div>
+                        </div><img class="line-6" data-id="1:2216"
+                            src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/line-6.svg"
+                            anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/line-6.svg"
+                            alt="Line 6">
+                    </div>
+                    <div class="frame-1000002243" data-id="1:2217">
+                        <div class="frame-1000002238-RmYG6q frame-1000002238" data-id="1:2218">
+                            <div class="x6k-rsxiDt miniregular" data-id="1:2219">6k</div>
+                        </div><img class="line-6" data-id="1:2220"
+                            src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/line-6.svg"
+                            anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/line-6.svg"
+                            alt="Line 6">
+                    </div>
+                    <div class="frame-1000002244-YOwmGz" data-id="1:2221">
+                        <div class="frame-1000002238-rqoJtR frame-1000002238" data-id="1:2222">
+                            <div class="x5k-eonLuP miniregular" data-id="1:2223">5k</div>
+                        </div><img class="line-6" data-id="1:2224"
+                            src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/line-6.svg"
+                            anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/line-6.svg"
+                            alt="Line 6">
+                    </div>
+                    <div class="frame-1000002240-YOwmGz" data-id="1:2225">
+                        <div class="frame-1000002238-IOpaqf frame-1000002238" data-id="1:2226">
+                            <div class="x4k-rYc9gn miniregular" data-id="1:2227">4k</div>
+                        </div><img class="line-6" data-id="1:2228"
+                            src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/line-6.svg"
+                            anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/line-6.svg"
+                            alt="Line 6">
+                    </div>
+                    <div class="frame-1000002239-YOwmGz" data-id="1:2229">
+                        <div class="frame-1000002238-vxbcoh frame-1000002238" data-id="1:2230">
+                            <div class="x3k-wWBxwh miniregular" data-id="1:2231">3k</div>
+                        </div><img class="line-6" data-id="1:2232"
+                            src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/line-6.svg"
+                            anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/line-6.svg"
+                            alt="Line 6">
+                    </div>
+                    <div class="frame-1000002238-YOwmGz frame-1000002238" data-id="1:2233">
+                        <div class="frame-1000002238-XdmEtk frame-1000002238" data-id="1:2234">
+                            <div class="x2k-Utmtcx miniregular" data-id="1:2235">2k</div>
+                        </div><img class="line-6" data-id="1:2236"
+                            src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/line-6.svg"
+                            anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/line-6.svg"
+                            alt="Line 6">
+                    </div>
+                    <div class="frame-1000002237-YOwmGz" data-id="1:2237">
+                        <div class="frame-1000002238-6BNwqX frame-1000002238" data-id="1:2238">
+                            <div class="x1k-7SOO3U miniregular" data-id="1:2239">1k</div>
+                        </div><img class="line-6" data-id="1:2240"
+                            src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/line-6.svg"
+                            anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/line-6.svg"
+                            alt="Line 6">
+                    </div>
+                    <div class="frame-1000002235-YOwmGz" data-id="1:2241">
+                        <div class="frame-1000002236-fiEpEh" data-id="1:2242">
+                            <div class="x0k-vEdp19 minimedium" data-id="1:2243">0k</div>
+                        </div><img class="line-4-fiEpEh" data-id="1:2244"
+                            src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/line-4.svg"
+                            anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/line-4.svg"
+                            alt="Line 4">
+                    </div><img class="group-289341-YOwmGz" data-id="1:2245"
+                        src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/group-289341.png"
+                        anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/group-289341.png"
+                        alt="Group 289341">
+                </div>
+                <div class="frame-1000002243-JOSxv8 frame-1000002243" data-id="1:2247">
+                    <article class="frame-1000002345-Gk3VsO" data-id="1:2248">
+                        <div class="x01 miniregular" data-id="I1:2248;1243:91947"></div>
+                    </article>
+                    <article class="frame-1000002376-Gk3VsO" data-id="1:2249">
+                        <div class="x01 miniregular" data-id="I1:2249;1243:91947">1 Jan</div>
+                    </article>
+                    <article class="frame-1000002346-Gk3VsO" data-id="1:2250">
+                        <div class="x01 miniregular" data-id="I1:2250;1243:91947">2 Jan</div>
+                    </article>
+                    <article class="frame-1000002347-Gk3VsO" data-id="1:2251">
+                        <div class="x01 miniregular" data-id="I1:2251;1243:91947">3 Jan</div>
+                    </article>
+                    <article class="frame-1000002348-Gk3VsO" data-id="1:2252">
+                        <div class="x01 miniregular" data-id="I1:2252;1243:91947">4 Jan</div>
+                    </article>
+                    <article class="frame-1000002349-Gk3VsO" data-id="1:2253">
+                        <div class="x01 miniregular" data-id="I1:2253;1243:91947">5 Jan</div>
+                    </article>
+                    <article class="frame-1000002350-Gk3VsO" data-id="1:2254">
+                        <div class="x01 miniregular" data-id="I1:2254;1243:91947">6 Jan</div>
+                    </article>
+                    <article class="frame-1000002351-Gk3VsO" data-id="1:2255">
+                        <div class="x01 miniregular" data-id="I1:2255;1243:91947">7 Jan</div>
+                    </article>
+                    <article class="frame-1000002352-Gk3VsO" data-id="1:2256">
+                        <div class="x01 miniregular" data-id="I1:2256;1243:91947">8 Jan</div>
+                    </article>
+                    <article class="frame-1000002353-Gk3VsO" data-id="1:2257">
+                        <div class="x01 miniregular" data-id="I1:2257;1243:91947">9 Jan</div>
+                    </article>
+                    <article class="frame-1000002354-Gk3VsO" data-id="1:2258">
+                        <div class="x01 miniregular" data-id="I1:2258;1243:91947">10 Jan</div>
+                    </article>
+                    <article class="frame-1000002355-Gk3VsO" data-id="1:2259">
+                        <div class="x01 miniregular" data-id="I1:2259;1243:91947">11 Jan</div>
+                    </article>
+                    <article class="frame-1000002356-Gk3VsO" data-id="1:2260">
+                        <div class="x01 miniregular" data-id="I1:2260;1243:91947">12 Jan</div>
+                    </article>
+                    <article class="frame-1000002357-Gk3VsO" data-id="1:2261">
+                        <div class="x01 miniregular" data-id="I1:2261;1243:91947">13 Jan</div>
+                    </article>
+                    <article class="frame-1000002358-Gk3VsO" data-id="1:2262">
+                        <div class="x01 miniregular" data-id="I1:2262;1243:91947">14 Jan</div>
+                    </article>
+                    <article class="frame-1000002359-Gk3VsO" data-id="1:2263">
+                        <div class="x01 miniregular" data-id="I1:2263;1243:91947">15 Jan</div>
+                    </article>
+                    <article class="frame-1000002360-Gk3VsO" data-id="1:2264">
+                        <div class="x01 miniregular" data-id="I1:2264;1243:91947">16 Jan</div>
+                    </article>
+                    <article class="frame-1000002361-Gk3VsO" data-id="1:2265">
+                        <div class="x01 miniregular" data-id="I1:2265;1243:91947">17 Jan</div>
+                    </article>
+                    <article class="frame-1000002362-Gk3VsO" data-id="1:2266">
+                        <div class="x01 miniregular" data-id="I1:2266;1243:91947">18 Jan</div>
+                    </article>
+                    <article class="frame-1000002363-Gk3VsO" data-id="1:2267">
+                        <div class="x01 miniregular" data-id="I1:2267;1243:91947">19 Jan</div>
+                    </article>
+                </div>
+            </div>
+            <div class="frame-1000002547-58xVYz" data-id="1:2279"><img class="solararrow-left-linear-NyCmVL"
+                    data-id="1:2280"
+                    src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/solar-arrow-left-linear.svg"
+                    anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/solar-arrow-left-linear.svg"
+                    alt="solar:arrow-left-linear">
+                <div class="back-NyCmVL inter-semi-bold-white-12px" data-id="1:2282">Back</div>
+            </div>
+            <div class="group-1171275188-58xVYz" data-id="1:2283">
+                <div class="group-1171275169-yA7uI0" data-id="1:2284">
+                    <div class="rectangle-5558-B22ZOT rectangle-5558" data-id="1:2285"></div>
+                    <div class="rectangle-5559-B22ZOT rectangle-5559" data-id="1:2286"></div>
+                    <div class="rectangle-5560-B22ZOT rectangle-5560" data-id="1:2287"></div>
+                    <div class="rectangle-5561-B22ZOT rectangle-5561" data-id="1:2288"></div>
+                    <div class="rectangle-5562-B22ZOT rectangle-5562" data-id="1:2289"></div>
+                    <div class="rectangle-5563-B22ZOT rectangle-5563" data-id="1:2290"></div>
+                    <div class="rectangle-5564-B22ZOT rectangle-5564" data-id="1:2291"></div>
+                </div>
+                <div class="group-1171275170-yA7uI0" data-id="1:2292">
+                    <div class="rectangle-5558-PLW3pM rectangle-5558" data-id="1:2293"></div>
+                    <div class="rectangle-5559-PLW3pM rectangle-5559" data-id="1:2294"></div>
+                    <div class="rectangle-5560-PLW3pM rectangle-5560" data-id="1:2295"></div>
+                    <div class="rectangle-5561-PLW3pM rectangle-5561" data-id="1:2296"></div>
+                    <div class="rectangle-5562-PLW3pM rectangle-5562" data-id="1:2297"></div>
+                    <div class="rectangle-5563-PLW3pM rectangle-5563" data-id="1:2298"></div>
+                    <div class="rectangle-5564-PLW3pM rectangle-5564" data-id="1:2299"></div>
+                </div>
+                <div class="group-1171275171-yA7uI0" data-id="1:2300">
+                    <div class="rectangle-5558-x7aLIh rectangle-5558" data-id="1:2301"></div>
+                    <div class="rectangle-5559-x7aLIh rectangle-5559" data-id="1:2302"></div>
+                    <div class="rectangle-5560-x7aLIh rectangle-5560" data-id="1:2303"></div>
+                    <div class="rectangle-5561-x7aLIh rectangle-5561" data-id="1:2304"></div>
+                    <div class="rectangle-5562-x7aLIh rectangle-5562" data-id="1:2305"></div>
+                    <div class="rectangle-5563-x7aLIh rectangle-5563" data-id="1:2306"></div>
+                    <div class="rectangle-5564-x7aLIh rectangle-5564" data-id="1:2307"></div>
+                </div>
+                <div class="group-1171275172-yA7uI0" data-id="1:2308">
+                    <div class="rectangle-5558-1gnjFP rectangle-5558" data-id="1:2309"></div>
+                    <div class="rectangle-5559-1gnjFP rectangle-5559" data-id="1:2310"></div>
+                    <div class="rectangle-5560-1gnjFP rectangle-5560" data-id="1:2311"></div>
+                    <div class="rectangle-5561-1gnjFP rectangle-5561" data-id="1:2312"></div>
+                    <div class="rectangle-5562-1gnjFP rectangle-5562" data-id="1:2313"></div>
+                    <div class="rectangle-5563-1gnjFP rectangle-5563" data-id="1:2314"></div>
+                    <div class="rectangle-5564-1gnjFP rectangle-5564" data-id="1:2315"></div>
+                </div>
+                <div class="group-1171275173-yA7uI0" data-id="1:2316">
+                    <div class="rectangle-5558-wIPgY5 rectangle-5558" data-id="1:2317"></div>
+                    <div class="rectangle-5559-wIPgY5 rectangle-5559" data-id="1:2318"></div>
+                    <div class="rectangle-5560-wIPgY5 rectangle-5560" data-id="1:2319"></div>
+                    <div class="rectangle-5561-wIPgY5 rectangle-5561" data-id="1:2320"></div>
+                    <div class="rectangle-5562-wIPgY5 rectangle-5562" data-id="1:2321"></div>
+                    <div class="rectangle-5563-wIPgY5 rectangle-5563" data-id="1:2322"></div>
+                    <div class="rectangle-5564-wIPgY5 rectangle-5564" data-id="1:2323"></div>
+                </div>
+                <div class="group-1171275174-yA7uI0" data-id="1:2324">
+                    <div class="rectangle-5558-zIe9LL rectangle-5558" data-id="1:2325"></div>
+                    <div class="rectangle-5559-zIe9LL rectangle-5559" data-id="1:2326"></div>
+                    <div class="rectangle-5560-zIe9LL rectangle-5560" data-id="1:2327"></div>
+                    <div class="rectangle-5561-zIe9LL rectangle-5561" data-id="1:2328"></div>
+                    <div class="rectangle-5562-zIe9LL rectangle-5562" data-id="1:2329"></div>
+                    <div class="rectangle-5563-zIe9LL rectangle-5563" data-id="1:2330"></div>
+                    <div class="rectangle-5564-zIe9LL rectangle-5564" data-id="1:2331"></div>
+                </div>
+                <div class="group-1171275175-yA7uI0" data-id="1:2332">
+                    <div class="rectangle-5558-CHpH1H rectangle-5558" data-id="1:2333"></div>
+                    <div class="rectangle-5559-CHpH1H rectangle-5559" data-id="1:2334"></div>
+                    <div class="rectangle-5560-CHpH1H rectangle-5560" data-id="1:2335"></div>
+                    <div class="rectangle-5561-CHpH1H rectangle-5561" data-id="1:2336"></div>
+                    <div class="rectangle-5562-CHpH1H rectangle-5562" data-id="1:2337"></div>
+                    <div class="rectangle-5563-CHpH1H rectangle-5563" data-id="1:2338"></div>
+                    <div class="rectangle-5564-CHpH1H rectangle-5564" data-id="1:2339"></div>
+                </div>
+                <div class="group-1171275176-yA7uI0" data-id="1:2340">
+                    <div class="rectangle-5558-2MByLv rectangle-5558" data-id="1:2341"></div>
+                    <div class="rectangle-5559-2MByLv rectangle-5559" data-id="1:2342"></div>
+                    <div class="rectangle-5560-2MByLv rectangle-5560" data-id="1:2343"></div>
+                    <div class="rectangle-5561-2MByLv rectangle-5561" data-id="1:2344"></div>
+                    <div class="rectangle-5562-2MByLv rectangle-5562" data-id="1:2345"></div>
+                    <div class="rectangle-5563-2MByLv rectangle-5563" data-id="1:2346"></div>
+                    <div class="rectangle-5564-2MByLv rectangle-5564" data-id="1:2347"></div>
+                </div>
+                <div class="group-1171275177-yA7uI0" data-id="1:2348">
+                    <div class="rectangle-5558-P1Odei rectangle-5558" data-id="1:2349"></div>
+                    <div class="rectangle-5559-P1Odei rectangle-5559" data-id="1:2350"></div>
+                    <div class="rectangle-5560-P1Odei rectangle-5560" data-id="1:2351"></div>
+                    <div class="rectangle-5561-P1Odei rectangle-5561" data-id="1:2352"></div>
+                    <div class="rectangle-5562-P1Odei rectangle-5562" data-id="1:2353"></div>
+                    <div class="rectangle-5563-P1Odei rectangle-5563" data-id="1:2354"></div>
+                    <div class="rectangle-5564-P1Odei rectangle-5564" data-id="1:2355"></div>
+                </div>
+                <div class="group-1171275178-yA7uI0" data-id="1:2356">
+                    <div class="rectangle-5558-zHjR6B rectangle-5558" data-id="1:2357"></div>
+                    <div class="rectangle-5559-zHjR6B rectangle-5559" data-id="1:2358"></div>
+                    <div class="rectangle-5560-zHjR6B rectangle-5560" data-id="1:2359"></div>
+                    <div class="rectangle-5561-zHjR6B rectangle-5561" data-id="1:2360"></div>
+                    <div class="rectangle-5562-zHjR6B rectangle-5562" data-id="1:2361"></div>
+                    <div class="rectangle-5563-zHjR6B rectangle-5563" data-id="1:2362"></div>
+                    <div class="rectangle-5564-zHjR6B rectangle-5564" data-id="1:2363"></div>
+                </div>
+                <div class="group-1171275179-yA7uI0" data-id="1:2364">
+                    <div class="rectangle-5558-gAsf3R rectangle-5558" data-id="1:2365"></div>
+                    <div class="rectangle-5559-gAsf3R rectangle-5559" data-id="1:2366"></div>
+                    <div class="rectangle-5560-gAsf3R rectangle-5560" data-id="1:2367"></div>
+                    <div class="rectangle-5561-gAsf3R rectangle-5561" data-id="1:2368"></div>
+                    <div class="rectangle-5562-gAsf3R rectangle-5562" data-id="1:2369"></div>
+                    <div class="rectangle-5563-gAsf3R rectangle-5563" data-id="1:2370"></div>
+                    <div class="rectangle-5564-gAsf3R rectangle-5564" data-id="1:2371"></div>
+                </div>
+                <div class="group-1171275180-yA7uI0" data-id="1:2372">
+                    <div class="rectangle-5558-PRrxGt rectangle-5558" data-id="1:2373"></div>
+                    <div class="rectangle-5559-PRrxGt rectangle-5559" data-id="1:2374"></div>
+                    <div class="rectangle-5560-PRrxGt rectangle-5560" data-id="1:2375"></div>
+                    <div class="rectangle-5561-PRrxGt rectangle-5561" data-id="1:2376"></div>
+                    <div class="rectangle-5562-PRrxGt rectangle-5562" data-id="1:2377"></div>
+                    <div class="rectangle-5563-PRrxGt rectangle-5563" data-id="1:2378"></div>
+                    <div class="rectangle-5564-PRrxGt rectangle-5564" data-id="1:2379"></div>
+                </div>
+                <div class="group-1171275181-yA7uI0" data-id="1:2380">
+                    <div class="rectangle-5558-jJvg0Q rectangle-5558" data-id="1:2381"></div>
+                    <div class="rectangle-5559-jJvg0Q rectangle-5559" data-id="1:2382"></div>
+                    <div class="rectangle-5560-jJvg0Q rectangle-5560" data-id="1:2383"></div>
+                    <div class="rectangle-5561-jJvg0Q rectangle-5561" data-id="1:2384"></div>
+                    <div class="rectangle-5562-jJvg0Q rectangle-5562" data-id="1:2385"></div>
+                    <div class="rectangle-5563-jJvg0Q rectangle-5563" data-id="1:2386"></div>
+                    <div class="rectangle-5564-jJvg0Q rectangle-5564" data-id="1:2387"></div>
+                </div>
+                <div class="group-1171275182-yA7uI0" data-id="1:2388">
+                    <div class="rectangle-5558-OQcR6d rectangle-5558" data-id="1:2389"></div>
+                    <div class="rectangle-5559-OQcR6d rectangle-5559" data-id="1:2390"></div>
+                    <div class="rectangle-5560-OQcR6d rectangle-5560" data-id="1:2391"></div>
+                    <div class="rectangle-5561-OQcR6d rectangle-5561" data-id="1:2392"></div>
+                    <div class="rectangle-5562-OQcR6d rectangle-5562" data-id="1:2393"></div>
+                    <div class="rectangle-5563-OQcR6d rectangle-5563" data-id="1:2394"></div>
+                    <div class="rectangle-5564-OQcR6d rectangle-5564" data-id="1:2395"></div>
+                </div>
+                <div class="group-1171275183-yA7uI0" data-id="1:2396">
+                    <div class="rectangle-5558-LLjUwD rectangle-5558" data-id="1:2397"></div>
+                    <div class="rectangle-5559-LLjUwD rectangle-5559" data-id="1:2398"></div>
+                    <div class="rectangle-5560-LLjUwD rectangle-5560" data-id="1:2399"></div>
+                    <div class="rectangle-5561-LLjUwD rectangle-5561" data-id="1:2400"></div>
+                    <div class="rectangle-5562-LLjUwD rectangle-5562" data-id="1:2401"></div>
+                    <div class="rectangle-5563-LLjUwD rectangle-5563" data-id="1:2402"></div>
+                    <div class="rectangle-5564-LLjUwD rectangle-5564" data-id="1:2403"></div>
+                </div>
+                <div class="group-1171275184-yA7uI0" data-id="1:2404">
+                    <div class="rectangle-5558-x3dUob rectangle-5558" data-id="1:2405"></div>
+                    <div class="rectangle-5559-x3dUob rectangle-5559" data-id="1:2406"></div>
+                    <div class="rectangle-5560-x3dUob rectangle-5560" data-id="1:2407"></div>
+                    <div class="rectangle-5561-x3dUob rectangle-5561" data-id="1:2408"></div>
+                    <div class="rectangle-5562-x3dUob rectangle-5562" data-id="1:2409"></div>
+                    <div class="rectangle-5563-x3dUob rectangle-5563" data-id="1:2410"></div>
+                    <div class="rectangle-5564-x3dUob rectangle-5564" data-id="1:2411"></div>
+                </div>
+                <div class="group-1171275185-yA7uI0" data-id="1:2412">
+                    <div class="rectangle-5558-u8lYw5 rectangle-5558" data-id="1:2413"></div>
+                    <div class="rectangle-5559-u8lYw5 rectangle-5559" data-id="1:2414"></div>
+                    <div class="rectangle-5560-u8lYw5 rectangle-5560" data-id="1:2415"></div>
+                    <div class="rectangle-5561-u8lYw5 rectangle-5561" data-id="1:2416"></div>
+                    <div class="rectangle-5562-u8lYw5 rectangle-5562" data-id="1:2417"></div>
+                    <div class="rectangle-5563-u8lYw5 rectangle-5563" data-id="1:2418"></div>
+                    <div class="rectangle-5564-u8lYw5 rectangle-5564" data-id="1:2419"></div>
+                </div>
+                <div class="group-1171275186-yA7uI0" data-id="1:2420">
+                    <div class="rectangle-5558-F12NiX rectangle-5558" data-id="1:2421"></div>
+                    <div class="rectangle-5559-F12NiX rectangle-5559" data-id="1:2422"></div>
+                    <div class="rectangle-5560-F12NiX rectangle-5560" data-id="1:2423"></div>
+                    <div class="rectangle-5561-F12NiX rectangle-5561" data-id="1:2424"></div>
+                    <div class="rectangle-5562-F12NiX rectangle-5562" data-id="1:2425"></div>
+                    <div class="rectangle-5563-F12NiX rectangle-5563" data-id="1:2426"></div>
+                    <div class="rectangle-5564-F12NiX rectangle-5564" data-id="1:2427"></div>
+                </div>
+                <div class="group-1171275187-yA7uI0" data-id="1:2428">
+                    <div class="rectangle-5558-Hz5Ig7 rectangle-5558" data-id="1:2429"></div>
+                    <div class="rectangle-5559-Hz5Ig7 rectangle-5559" data-id="1:2430"></div>
+                    <div class="rectangle-5560-Hz5Ig7 rectangle-5560" data-id="1:2431"></div>
+                    <div class="rectangle-5561-Hz5Ig7 rectangle-5561" data-id="1:2432"></div>
+                    <div class="rectangle-5562-Hz5Ig7 rectangle-5562" data-id="1:2433"></div>
+                    <div class="rectangle-5563-Hz5Ig7 rectangle-5563" data-id="1:2434"></div>
+                    <div class="rectangle-5564-Hz5Ig7 rectangle-5564" data-id="1:2435"></div>
+                </div>
+            </div>
+            <div class="label-dots-58xVYz label-dots" data-id="1:2436"></div>
+            <div class="group-1000002012-58xVYz" data-id="1:2437">
+                <div class="frame-1000011534-rSmVCQ" data-id="1:2438">
+                    <div class="mrr-breakdown-Frnxmg" data-id="1:2439">MRR Breakdown</div>
+                    <div class="dropdown-filter-options-Frnxmg" data-id="1:2440">
+                        <div class="dropdown-filter-options-OOE3vF" data-id="I1:2440;1441:94863">
+                            <div class="frame-285" data-id="I1:2440;1441:94865">
+                                <div class="last-30-days-Tqnjnm last-30-days micromedium" data-id="I1:2440;1441:94866">7
+                                    Jan 2024</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="frame-1000011539-Frnxmg" data-id="1:2441">
+                        <div class="frame-1000011538-trGCZM" data-id="1:2442">
+                            <div class="frame-1000011536-aFwwKE" data-id="1:2443">
+                                <div class="ellipse-230-7Thkwa" data-id="1:2444"></div>
+                                <div class="ellipse-231-7Thkwa" data-id="1:2445"></div>
+                                <div class="ellipse-232-7Thkwa" data-id="1:2446"></div>
+                                <div class="ellipse-233-7Thkwa" data-id="1:2447"></div>
+                                <div class="ellipse-234-7Thkwa" data-id="1:2448"></div>
+                                <div class="ellipse-235-7Thkwa ellipse-235" data-id="1:2449"></div>
+                                <div class="ellipse-236-7Thkwa" data-id="1:2450"></div>
+                            </div>
+                            <div class="frame-1000011535-aFwwKE" data-id="1:2451">
+                                <div class="new-mrr-f0o0zJ new-mrr minimedium" data-id="1:2452">New MRR</div>
+                                <div class="upgrades-f0o0zJ upgrades minimedium" data-id="1:2453">Upgrades</div>
+                                <div class="reactivations-f0o0zJ reactivations minimedium" data-id="1:2454">
+                                    Reactivations</div>
+                                <div class="existing-f0o0zJ existing minimedium" data-id="1:2455">Existing</div>
+                                <div class="downgrades-f0o0zJ downgrades minimedium" data-id="1:2456">Downgrades</div>
+                                <div class="churn-f0o0zJ churn minimedium" data-id="1:2457">Churn</div>
+                                <div class="arpu-f0o0zJ arpu minimedium" data-id="1:2458">ARPU</div>
+                            </div>
+                        </div>
+                        <div class="frame-1000011537-trGCZM" data-id="1:2459">
+                            <div class="x14775-ZeXZVr x14775 inter-semi-bold-white-12px" data-id="1:2460">$14,775</div>
+                            <div class="x13000-ZeXZVr x13000 inter-semi-bold-white-12px" data-id="1:2461">$13,000</div>
+                            <div class="x10000-ZeXZVr x10000 inter-semi-bold-white-12px" data-id="1:2462">$10,000</div>
+                            <div class="x10000-bAxgaP x10000 inter-semi-bold-white-12px" data-id="1:2463">$10,000</div>
+                            <div class="x775-ZeXZVr inter-semi-bold-white-12px" data-id="1:2464">$775</div>
+                            <div class="x100-ZeXZVr x100 inter-semi-bold-white-12px" data-id="1:2465">$100</div>
+                            <div class="x10-ZeXZVr inter-semi-bold-white-12px" data-id="1:2466">$10</div>
+                        </div>
+                    </div>
+                    <div class="group-1171275191-Frnxmg" data-id="1:2467">
+                        <div class="net-mrr-Zc7NMl" data-id="1:2468">NET MRR</div>
+                        <div class="x100000-Zc7NMl" data-id="1:2469">$100,000</div>
+                        <div class="ellipse-235-Zc7NMl ellipse-235" data-id="1:2470"></div>
+                    </div><img class="line-26-Frnxmg" data-id="1:2471"
+                        src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/line-26.svg"
+                        anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/line-26.svg"
+                        alt="Line 26">
+                </div><img class="polygon-1-rSmVCQ" data-id="1:2472"
+                    src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/polygon-1.svg"
+                    anima-src="https://cdn.animaapp.com/projects/66ce212cdea75b65b765e7d2/releases/66ce252cd9c8166c6ed241c2/img/polygon-1.svg"
+                    alt="Polygon 1">
+            </div>
+        </div>
+    </div>
+    <script src="launchpad-js/launchpad-banner.js" async=""></script>
+    <script defer="" src="https://animaapp.s3.amazonaws.com/static/restart-btn.min.js"></script>
+    <div id="t_preload_links">
+        <link href="/data-visualization-page" rel="prefetch">
+    </div>
+    <div id="anima-interface" data-turbo-permanent="true" class="idle"><!---->
+        <div id="anima-comment-popover" class="popover top" role="tooltip" style="left: -205px; top: -220px;">
+            <div class="arrow" style="margin-left: 128px;"></div>
+            <div class="popover-content" style="align-items:center">
+                <div style="display:flex;flex-direction:column;height: 100%;padding: 20px;">
+                    <h3
+                        style="font-size:18px;margin-bottom:10px;font-weight:500;line-height: 26px;font-family: Roslindale;">
+                        Leave feedback and collaborate
+                    </h3>
+                    <p style="font-size:12px;margin-bottom:20px;font-weight:400;line-height: 20px;">
+                        Login to your account to leave comments. Don't have an account?
+                        Sign up for free!
+                    </p>
+                    <a target="_blank" rel="noopener noreferrer" class="btn"
+                        href="https://projects.animaapp.com/p/undefined/s/undefined?mode=comments&amp;utm_campaign=add-comment&amp;utm_medium=add-comment&amp;utm_source=animaapp.io">Add
+                        comment</a>
+                </div>
+
+                <div style="display:flex;align-items:center;justify-content:center;padding-right:20px">
+                    <img src="https://animaapp.s3.amazonaws.com/static/comment-illustration.svg">
+                </div>
+            </div>
+        </div>
+        <div id="anima-code-popover" class="popover top" role="tooltip" style="left: -205px; top: -220px;">
+            <div class="arrow" style="margin-left: 168px;"></div>
+            <div class="popover-content" style="align-items:center">
+                <div style="display:flex;flex-direction:column;height: 100%;padding: 20px;">
+                    <h3
+                        style="font-size:18px;margin-bottom:10px;font-weight:500;line-height: 26px;font-family: Roslindale;">
+                        Get clean code you’ll love with Anima
+                    </h3>
+                    <p style="font-size:12px;margin-bottom:20px;font-weight:400;line-height: 20px;">
+                        Login and easily export HTML, React or Vue of this prototype.
+                        Don’t have an account? Sign up for free!
+                    </p>
+                    <a target="_blank" rel="noopener noreferrer" class="btn"
+                        href="https://projects.animaapp.com/p/undefined/s/undefined?mode=code&amp;utm_campaign=get-code&amp;utm_medium=get-code&amp;utm_source=animaapp.io">
+                        Get code
+                    </a>
+                </div>
+
+                <img src="https://animaapp.s3.amazonaws.com/static/code-illustration.svg">
+            </div>
+        </div>
+        <div class="omniview-anima-action-links" id="actions-wrap">
+            <div class="omniview-anima-action-links">
+                <div id="page-nav" class="link navigation" style="display: none;">
+                    <svg id="homepage-icon" class="home-icon" width="24" height="24" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M8.151 11a.25.25 0 01-.167-.436l4.349-3.913a.25.25 0 01.334 0l4.349 3.913a.25.25 0 01-.167.436H8.15zM16 12H9v4a1 1 0 001 1h5a1 1 0 001-1v-4z"
+                            fill="#fff"></path>
+                    </svg>
+
+                    <svg class="icon" id="arrow-left" width="24" height="24" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 18l-6-6 6-6" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+
+                    <span id="page-num"></span>
+
+                    <svg class="icon" id="arrow-right" width="24" height="24" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                </div>
+
+                <a class="link" id="comment-link" target="_blank" style="display: none;">
+                    <span class="text">Comment</span>
+                    <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M4.301 15.137a.551.551 0 01.199-.55c.314-.23.554-.554.718-.965A6.015 6.015 0 014 10 6.006 6.006 0   0110.001 4 6.006 6.006 0 0116 10.001 6.006 6.006 0 019.999 16a5.98 5.98 0 01-3.095-.86 3.165 3.165 0 01-1.65.438 3.6  3.6 0 01-.57-.044c-.191-.03-.34-.186-.383-.397z"
+                            fill="#fff"></path>
+                    </svg>
+                </a>
+
+                <a class="link" id="code-link" target="_blank" style="display: none;">
+                    <span class="text">Get Code</span>
+                    <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M12 15.667a1 1 0 01-.707-1.708l3.626-3.625-3.626-3.626a1 1 0 111.415-1.415l4.333 4.333a1 1 0 010 1.414l-4.333 4.333a.993.993 0 01-.707.294zM7.333 5a1 1 0 01.707 1.708l-3.626 3.625 3.627 3.626a1 1 0 11-1.415 1.415L2.293 11.04a1 1 0 010-1.415l4.333-4.333A.992.992 0 017.333 5z"
+                            fill="#fff"></path>
+                    </svg>
+                </a>
+
+                <div class="restart" id="restart-btn" style="display: none;">
+                    <svg style="margin-right: 6px" width="12" height="12" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M6 11.817A5.017 5.017 0 01.994 6.811c0-.207.169-.375.375-.375s.375.168.375.375A4.265 4.265 0 006 11.067a4.265 4.265 0 004.256-4.256A4.265 4.265 0 006 2.555a.376.376 0 01-.375-.376c0-.206.169-.374.375-.374a5.017 5.017 0 015.006 5.006A5.017 5.017 0 016 11.817z"
+                            fill="#fff"></path>
+                        <path
+                            d="M6.75 4.237a.37.37 0 01-.263-.112l-1.65-1.65a.363.363 0 010-.525L6.487.3c.15-.15.375-.15.525 0 .15.15.15.375 0 .525L5.625 2.212 7.012 3.6c.15.15.15.375 0 .525-.056.075-.15.112-.262.112z"
+                            fill="#fff"></path>
+                    </svg>
+                    Restart
+                </div>
+            </div>
+        </div>
+        <!---->
+    </div>
+    <div id="anima-watermark" style="display: none;" class="idle"><!----><a id="anima-watermark-link" target="_blank"
+            href="https://www.animaapp.com?utm_campaign=public-link-banner&amp;utm_medium=public-link-banner&amp;utm_source=animaapp.io"
+            style="right: 20px; left: auto; padding: 6px;">
+            <svg width="20" height="20" viewBox="0 0 20 20" id="anima-logo-icon" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M4.09293 3.00001H16.5327C16.5484 2.99976 16.5638 3.00351 16.5776 3.01092C16.5913 3.01832 16.603 3.02913 16.6114 3.04231C16.6198 3.0555 16.6247 3.07061 16.6256 3.08622C16.6265 3.10182 16.6233 3.1174 16.6165 3.13146C15.5441 5.29706 13.9276 7.14699 11.9253 8.50009C8.69117 10.6822 5.43436 10.9075 4.09389 10.9196C4.08165 10.9198 4.06949 10.9176 4.05811 10.9131C4.04672 10.9086 4.03636 10.9019 4.02761 10.8933C4.01887 10.8848 4.01192 10.8745 4.00718 10.8633C4.00244 10.852 4 10.8399 4 10.8276V3.09198C4 3.07982 4.00241 3.06778 4.00709 3.05656C4.01177 3.04534 4.01863 3.03516 4.02728 3.02661C4.03592 3.01805 4.04617 3.0113 4.05744 3.00673C4.06871 3.00217 4.08077 2.99988 4.09293 3.00001Z"
+                    fill="#FF6250"></path>
+                <path
+                    d="M6.77772 17.4446C8.31182 17.4446 9.55545 16.201 9.55545 14.6669C9.55545 13.1328 8.31182 11.8892 6.77772 11.8892C5.24363 11.8892 4 13.1328 4 14.6669C4 16.201 5.24363 17.4446 6.77772 17.4446Z"
+                    fill="#FFDF90"></path>
+                <path
+                    d="M12.4559 17.2799C11.6701 16.9799 11.2522 16.1151 11.5185 15.3496L13.6153 9.3656C13.884 8.60003 14.7387 8.22302 15.5245 8.52299C16.3103 8.82344 16.7282 9.68772 16.4619 10.4538L14.365 16.4377C14.0964 17.2033 13.2417 17.5808 12.4559 17.2799Z"
+                    fill="#3366FF"></path>
+            </svg>
+            <span class="text" style="display: none;">Made with Anima</span>
+        </a><!----></div>
+</body>
+
+</html>
